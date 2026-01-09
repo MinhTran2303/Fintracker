@@ -1,144 +1,103 @@
+import 'package:fintracker/theme/app_radius.dart';
+import 'package:fintracker/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
-enum AppButtonType{
-  outlined, filled, duoTone;
-}
-enum AppButtonSize{
+enum AppButtonVariant { primary, secondary }
+
+enum AppButtonSize {
   small,
   normal,
-  large;
+  large,
 }
 
-class AppButton extends StatelessWidget{
-  final double? height;
-  final double? width;
-  final String? label;
+class AppButton extends StatelessWidget {
+  final String label;
   final IconData? icon;
-  final Color? color;
-  final BorderRadius? borderRadius;
   final VoidCallback? onPressed;
-  final VoidCallback? onLongPress;
-  final AppButtonType? type;
-  final AppButtonSize? size;
-  final double? iconSize;
-  final TextStyle? labelStyle;
-  final bool? isFullWidth;
+  final AppButtonVariant variant;
+  final AppButtonSize size;
+  final bool isFullWidth;
+
   const AppButton({
     super.key,
-    this.label,
+    required this.label,
     this.icon,
-    this.color,
     this.onPressed,
-    this.onLongPress,
-    this.height,
-    this.width,
-    this.borderRadius,
-    this.type = AppButtonType.filled,
+    this.variant = AppButtonVariant.primary,
     this.size = AppButtonSize.normal,
-    this.iconSize,
-    this.labelStyle,
-    this.isFullWidth,
+    this.isFullWidth = false,
   });
+
+  double get _height {
+    switch (size) {
+      case AppButtonSize.small:
+        return 40;
+      case AppButtonSize.large:
+        return 56;
+      case AppButtonSize.normal:
+      default:
+        return 48;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    Color fallBackColor = color ?? (isDarkMode ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primary);
-    Color typoColor = Colors.transparent;
-    Color backgroundColor = Colors.transparent;
-    Color borderColor = Colors.transparent;
-    Color splashColor = Colors.transparent;
-    double borderWidth = 0;
-    //for  filled button
-    if(type == AppButtonType.filled){
-      typoColor = Colors.white;
-      backgroundColor = color ?? Theme.of(context).colorScheme.primary;
-      borderColor = Colors.transparent;
-      splashColor = Colors.white.withAlpha(100);
-    }
+    final theme = Theme.of(context);
+    final foreground = variant == AppButtonVariant.primary
+        ? theme.colorScheme.onPrimary
+        : theme.colorScheme.primary;
+    final background = variant == AppButtonVariant.primary
+        ? theme.colorScheme.primary
+        : Colors.transparent;
+    final borderSide = variant == AppButtonVariant.primary
+        ? BorderSide.none
+        : BorderSide(color: theme.colorScheme.primary, width: 1.4);
 
-    //for duoTone
-    if(type == AppButtonType.duoTone){
-      typoColor = fallBackColor;
-      backgroundColor = (fallBackColor).withAlpha(40);
-      borderColor = fallBackColor.withAlpha(10);
-      splashColor = (fallBackColor).withAlpha(100);
-      borderWidth = 1.5;
-    }
+    final labelStyle = theme.textTheme.labelLarge?.copyWith(color: foreground);
 
-    //for outlined button
-    if(type == AppButtonType.outlined){
-      typoColor = fallBackColor;
-      backgroundColor = Colors.transparent;
-      borderColor = fallBackColor;
-      splashColor = (fallBackColor).withAlpha(20);
-      borderWidth = 1.5;
-    }
-
-
-
-    //for size
-    double dimension = 0;
-
-    switch(size){
-      case AppButtonSize.small: dimension = 30 ; break;
-      case AppButtonSize.normal: dimension = 40 ; break;
-      case AppButtonSize.large: dimension = 55 ;break;
-      default: break;
-    }
-    dimension = height ?? dimension;
-
-
-    double paddingStart = dimension*0.6;
-    double paddingEnd = dimension*0.6;
-
-    if(icon != null){
-      paddingStart = dimension*0.5;
-    }
-    EdgeInsets padding = EdgeInsets.only(left: paddingStart, right: paddingEnd);
-    if(width != null){
-      padding = EdgeInsets.zero;
-    }
-
-    return
-      ConstrainedBox(
-          constraints:  BoxConstraints(
-              minWidth: isFullWidth?? false ? double.infinity : width??dimension,
-              minHeight: dimension,
-              maxWidth: width ?? double.infinity
+    final content = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (icon != null) ...[
+          Icon(icon, size: 18, color: foreground),
+          const SizedBox(width: AppSpacing.sm),
+        ],
+        Flexible(
+          child: Text(
+            label,
+            style: labelStyle,
+            overflow: TextOverflow.ellipsis,
           ),
-          child:  IntrinsicWidth(
-              child:MaterialButton(
-                color: backgroundColor,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                disabledColor: backgroundColor.withAlpha(50),
-                onPressed: onPressed,
-                onLongPress: onLongPress,
-                minWidth: dimension,
-                padding: padding,
-                height: dimension,
-                elevation: 0,
-                focusElevation: 0,
-                highlightElevation: 0,
-                hoverElevation: 0,
-                shape:  RoundedRectangleBorder(
-                    borderRadius: borderRadius ?? BorderRadius.circular(dimension * 0.35),
-                    side: BorderSide(
-                        width: borderWidth,
-                        color: borderColor
-                    )
+        ),
+      ],
+    );
+
+    return SizedBox(
+      width: isFullWidth ? double.infinity : null,
+      height: _height,
+      child: variant == AppButtonVariant.primary
+          ? ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: background,
+                foregroundColor: foreground,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.md),
                 ),
-                splashColor: splashColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    icon != null ? Icon(icon, color: typoColor, size: iconSize ?? (dimension - (dimension*(55/100))),) : const SizedBox(),
-                    icon != null && label!= null ? SizedBox(width: dimension*0.3,) : const SizedBox(),
-                    label!= null ?Text(label??"" ,style: TextStyle(color: typoColor).merge(labelStyle),): const SizedBox()
-                  ],
+              ),
+              onPressed: onPressed,
+              child: content,
+            )
+          : OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: foreground,
+                side: borderSide,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.md),
                 ),
-              )
-          )
-      );
+              ),
+              onPressed: onPressed,
+              child: content,
+            ),
+    );
   }
 }

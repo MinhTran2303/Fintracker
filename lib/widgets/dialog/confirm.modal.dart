@@ -1,8 +1,7 @@
-import 'package:fintracker/theme/colors.dart';
 import 'package:fintracker/widgets/buttons/button.dart';
 import 'package:flutter/material.dart';
 
-class ConfirmModal extends StatelessWidget{
+class ConfirmModal extends StatelessWidget {
   final String title;
   final Widget content;
   final VoidCallback onConfirm;
@@ -12,49 +11,56 @@ class ConfirmModal extends StatelessWidget{
     required this.title,
     required this.content,
     required this.onConfirm,
-    required this.onCancel
+    required this.onCancel,
   });
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AlertDialog(
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600),),
+      title: Text(title, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
       insetPadding: const EdgeInsets.all(20),
       content: content,
       actions: [
         Row(
           children: [
             Expanded(
-                child: AppButton(
-                    label: "No",
-                    onPressed: onCancel,
-                    color: Theme.of(context).colorScheme.primary,
-                    type: AppButtonType.outlined
-                )
+              child: AppButton(
+                label: 'Hủy',
+                onPressed: onCancel,
+                variant: AppButtonVariant.secondary,
+              ),
             ),
-            const SizedBox(width: 15,),
+            const SizedBox(width: 12),
             Expanded(
-                child: AppButton(
-                  label: "Yes",
-                  onPressed: onConfirm,
-                  color: ThemeColors.error,
-                )
+              child: AppButton(
+                label: 'Xác nhận',
+                onPressed: onConfirm,
+                variant: AppButtonVariant.primary,
+              ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
 
-  static showConfirmDialog(BuildContext context, {
+  static showConfirmDialog(
+    BuildContext context, {
     required String title,
     required Widget content,
     required VoidCallback onConfirm,
-    required VoidCallback onCancel
+    required VoidCallback onCancel,
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmModal(
+          title: title,
+          content: content,
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+        );
+      },
+    );
   }
-  ){
-    showDialog(context: context, builder: (BuildContext context){
-      return ConfirmModal(title: title, content: content, onConfirm: onConfirm, onCancel: onCancel);
-    });
-  }
-
 }
