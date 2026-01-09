@@ -1,59 +1,74 @@
 import 'package:fintracker/model/payment.model.dart';
 import 'package:fintracker/helpers/currency.helper.dart';
+import 'package:fintracker/theme/app_radius.dart';
+import 'package:fintracker/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../theme/colors.dart';
 
-class PaymentListItem extends StatelessWidget{
+class PaymentListItem extends StatelessWidget {
   final Payment payment;
   final VoidCallback onTap;
   const PaymentListItem({super.key, required this.payment, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final isCredit = payment.type == PaymentType.credit;
-    // model fields are non-nullable; use directly
     final category = payment.category;
-    final catColor = category.color;
-    final catIcon = category.icon;
-    final catName = category.name;
-    final datetime = payment.datetime;
-
     final amountText = CurrencyHelper.format(isCredit ? payment.amount : -payment.amount);
-    final subtitleText = "$catName • ${DateFormat("dd MMM yyyy, HH:mm").format(datetime)}";
+    final subtitleText = "${category.name} • ${DateFormat("dd MMM yyyy, HH:mm").format(payment.datetime)}";
 
-    return ListTile(
+    return InkWell(
       onTap: onTap,
-      leading: Container(
-        height: 32,
-        width: 32,
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: catColor.withAlpha((0.1 * 255).round()),
+          color: theme.colorScheme.surface,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          border: Border.all(color: theme.colorScheme.outline.withOpacity(0.3)),
         ),
-        child: Icon(
-          catIcon,
-          size: 16,
-          color: catColor,
+        child: Row(
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppRadius.md),
+                color: category.color.withOpacity(0.15),
+              ),
+              child: Icon(category.icon, size: 18, color: category.color),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    payment.title.isNotEmpty ? payment.title : category.name,
+                    style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    subtitleText,
+                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Text(
+              amountText,
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: isCredit ? theme.colorScheme.secondary : theme.colorScheme.error,
+              ),
+            ),
+          ],
         ),
       ),
-      title: Text(
-        amountText,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-          color: isCredit ? ThemeColors.success : ThemeColors.error,
-        ),
-      ),
-      subtitle: Text(
-        subtitleText,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
-        overflow: TextOverflow.ellipsis,
-      ),
-      contentPadding: EdgeInsets.zero,
-      visualDensity: VisualDensity.compact,
     );
   }
-
 }
