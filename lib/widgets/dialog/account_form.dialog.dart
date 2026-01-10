@@ -120,13 +120,14 @@ class _AccountForm extends State<AccountForm> {
               onIconChanged: (icon) => setState(() => _account!.icon = icon),
             ),
             const SizedBox(height: AppSpacing.lg),
-            SizedBox(
-              width: double.infinity,
-              child: AppButton(
-                label: 'Lưu',
-                onPressed: () => onSave(context),
-                variant: AppButtonVariant.primary,
-                isFullWidth: true,
+            LayoutBuilder(
+              builder: (context, constraints) => SizedBox(
+                width: constraints.maxWidth,
+                child: AppButton(
+                  label: 'Lưu',
+                  onPressed: () => onSave(context),
+                  variant: AppButtonVariant.primary,
+                ),
               ),
             ),
           ],
