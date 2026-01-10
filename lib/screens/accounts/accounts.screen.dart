@@ -59,6 +59,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final totalBalance = _accounts.fold<num>(0, (sum, account) => sum + (account.balance ?? 0));
+    final totalIncome = _accounts.fold<num>(0, (sum, account) => sum + (account.income ?? 0));
+    final totalExpense = _accounts.fold<num>(0, (sum, account) => sum + (account.expense ?? 0));
 
     return AppScaffold(
       appBar: AppBar(
@@ -90,6 +93,61 @@ class _AccountsScreenState extends State<AccountsScreen> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Tổng tài sản',
+                            style: theme.textTheme.titleSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                          ),
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Text(
+                              '${_accounts.length} ví',
+                              style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        CurrencyHelper.format(totalBalance.toDouble()),
+                        style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _SummaryTile(
+                              label: 'Thu vào',
+                              amount: totalIncome,
+                              icon: Icons.south_east,
+                              color: theme.colorScheme.secondary,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          Expanded(
+                            child: _SummaryTile(
+                              label: 'Chi ra',
+                              amount: totalExpense,
+                              icon: Icons.north_east,
+                              color: theme.colorScheme.tertiary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
                 SectionHeader(
                   title: 'Danh sách ví',
                   subtitle: '${_accounts.length} tài khoản đang hoạt động',
@@ -179,6 +237,10 @@ class _AccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final balanceValue = CurrencyHelper.format(balance.toDouble());
+    final incomeValue = CurrencyHelper.format(income.toDouble());
+    final expenseValue = CurrencyHelper.format(expense.toDouble());
+    final balanceTone = balance >= 0 ? theme.colorScheme.primary : theme.colorScheme.error;
 
     return AppCard(
       onTap: onTap,
@@ -188,22 +250,36 @@ class _AccountCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 44,
-                height: 44,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
-                  color: account.color.withOpacity(0.15),
-                  shape: BoxShape.circle,
+                  color: account.color.withOpacity(0.18),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(account.icon, color: account.color, size: 20),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
-                child: Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      'Số dư hiện tại',
+                      style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    ),
+                  ],
                 ),
+              ),
+              Text(
+                balanceValue,
+                style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: balanceTone),
               ),
               PopupMenuButton<int>(
                 onSelected: (value) async {
@@ -221,72 +297,148 @@ class _AccountCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.md),
-          Text(
-            CurrencyHelper.format(balance.toDouble()),
-            style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text('Số dư hiện tại', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-          const SizedBox(height: AppSpacing.md),
-          Wrap(
-            spacing: AppSpacing.sm,
-            runSpacing: AppSpacing.sm,
+          Row(
             children: [
-              _buildChip(
-                context,
-                icon: Icons.arrow_downward,
-                label: 'Thu',
-                amount: income,
-                background: theme.colorScheme.secondary.withOpacity(0.12),
-                iconColor: theme.colorScheme.secondary,
+              Expanded(
+                child: _buildMetric(
+                  context,
+                  icon: Icons.arrow_downward,
+                  label: 'Thu vào',
+                  amount: incomeValue,
+                  background: theme.colorScheme.secondary.withOpacity(0.12),
+                  iconColor: theme.colorScheme.secondary,
+                ),
               ),
-              _buildChip(
-                context,
-                icon: Icons.arrow_upward,
-                label: 'Chi',
-                amount: expense,
-                background: theme.colorScheme.tertiary.withOpacity(0.12),
-                iconColor: theme.colorScheme.tertiary,
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: _buildMetric(
+                  context,
+                  icon: Icons.arrow_upward,
+                  label: 'Chi ra',
+                  amount: expenseValue,
+                  background: theme.colorScheme.tertiary.withOpacity(0.12),
+                  iconColor: theme.colorScheme.tertiary,
+                ),
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(
-            income > expense ? 'Ví này đang tăng trưởng tốt' : 'Chi tiêu tăng so với tháng trước',
-            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant, fontStyle: FontStyle.italic),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceVariant.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  income >= expense ? Icons.trending_up : Icons.trending_down,
+                  size: 16,
+                  color: income >= expense ? theme.colorScheme.secondary : theme.colorScheme.error,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Expanded(
+                  child: Text(
+                    income >= expense ? 'Ví này đang tăng trưởng tốt' : 'Chi tiêu tăng so với tháng trước',
+                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildChip(
+  Widget _buildMetric(
     BuildContext context, {
     required IconData icon,
     required String label,
-    required num amount,
+    required String amount,
     required Color background,
     required Color iconColor,
   }) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 14, color: iconColor),
+              const SizedBox(width: AppSpacing.xs),
+              Text(label, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            amount,
+            style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.onSurface),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SummaryTile extends StatelessWidget {
+  final String label;
+  final num amount;
+  final IconData icon;
+  final Color color;
+
+  const _SummaryTile({
+    required this.label,
+    required this.amount,
+    required this.icon,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: iconColor),
-          const SizedBox(width: AppSpacing.xs),
-          Text(
-            '$label: ${CurrencyHelper.format(amount.toDouble())}',
-            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurface),
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 16, color: color),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  CurrencyHelper.format(amount.toDouble()),
+                  style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ],
       ),
