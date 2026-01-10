@@ -96,7 +96,13 @@ Future<String> getExternalDocumentPath() async {
   var status = await Permission.storage.status;
   if (!status.isGranted) {
     // If not we will ask for permission first
-    await Permission.storage.request();
+    status = await Permission.storage.request();
+  }
+  if (!status.isGranted && Platform.isAndroid) {
+    final manageStatus = await Permission.manageExternalStorage.status;
+    if (!manageStatus.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
   }
   Directory directory = Directory("");
   if (Platform.isAndroid) {
@@ -172,4 +178,3 @@ Future<void> import(String path) async {
     rethrow;
   }
 }
-
