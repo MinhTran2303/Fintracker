@@ -58,7 +58,7 @@ class _AccountForm extends State<AccountForm> {
   @override
   Widget build(BuildContext context) {
     if (_account == null) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
     }
     final theme = Theme.of(context);
 
@@ -119,17 +119,19 @@ class _AccountForm extends State<AccountForm> {
               onColorChanged: (color) => setState(() => _account!.color = color),
               onIconChanged: (icon) => setState(() => _account!.icon = icon),
             ),
+            const SizedBox(height: AppSpacing.lg),
+            SizedBox(
+              width: double.infinity,
+              child: AppButton(
+                label: 'Lưu',
+                onPressed: () => onSave(context),
+                variant: AppButtonVariant.primary,
+                isFullWidth: true,
+              ),
+            ),
           ],
         ),
       ),
-      actions: [
-        AppButton(
-          label: 'Lưu',
-          onPressed: () => onSave(context),
-          variant: AppButtonVariant.primary,
-          isFullWidth: true,
-        ),
-      ],
     );
   }
 }
