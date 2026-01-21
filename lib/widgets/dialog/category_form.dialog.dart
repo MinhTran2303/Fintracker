@@ -60,51 +60,67 @@ class _CategoryForm extends State<CategoryForm> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Container(
-                  height: 56,
-                  width: 56,
-                  decoration: BoxDecoration(
-                    color: _category.color,
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
-                  child: Icon(_category.icon, color: Colors.white),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Tên danh mục',
-                    hintText: 'Nhập tên danh mục',
-                    initialValue: _category.name,
-                    onChanged: (text) => setState(() => _category.name = text),
-                  ),
-                ),
-              ],
+            Text(
+              'Thiết lập danh mục giúp theo dõi chi tiêu theo mục tiêu.',
+              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
             const SizedBox(height: AppSpacing.md),
-            AppTextField(
-              label: 'Ngân sách',
-              hintText: 'Nhập ngân sách',
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
-              ],
-              initialValue: _category.budget == null ? '' : _category.budget.toString(),
-              prefix: CurrencyText(null),
-              onChanged: (text) {
-                setState(() {
-                  _category.budget = double.parse(text.isEmpty ? '0' : text);
-                });
-              },
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            IconColorPicker(
-              selectedColor: _category.color,
-              selectedIcon: _category.icon,
-              onColorChanged: (color) => setState(() => _category.color = color),
-              onIconChanged: (icon) => setState(() => _category.icon = icon),
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceVariant,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        height: 56,
+                        width: 56,
+                        decoration: BoxDecoration(
+                          color: _category.color,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: Icon(_category.icon, color: Colors.white),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: AppTextField(
+                          label: 'Tên danh mục',
+                          hintText: 'Nhập tên danh mục',
+                          initialValue: _category.name,
+                          onChanged: (text) => setState(() => _category.name = text),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: 'Ngân sách',
+                    hintText: 'Nhập ngân sách',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
+                    ],
+                    initialValue: _category.budget == null ? '' : _category.budget.toString(),
+                    prefix: CurrencyText(null),
+                    onChanged: (text) {
+                      setState(() {
+                        _category.budget = double.parse(text.isEmpty ? '0' : text);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  IconColorPicker(
+                    selectedColor: _category.color,
+                    selectedIcon: _category.icon,
+                    onColorChanged: (color) => setState(() => _category.color = color),
+                    onIconChanged: (icon) => setState(() => _category.icon = icon),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

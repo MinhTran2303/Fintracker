@@ -31,6 +31,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: const EdgeInsets.all(AppSpacing.lg),
       body: ListView(
         children: [
+          AppCard(
+            child: Row(
+              children: [
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(Icons.settings, color: theme.colorScheme.primary),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tùy chỉnh Fintracker',
+                        style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        'Thiết lập hồ sơ, tiền tệ và sao lưu dữ liệu của bạn.',
+                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
           const SectionHeader(
             title: 'Hồ sơ',
             subtitle: 'Cá nhân hóa trải nghiệm của bạn',
