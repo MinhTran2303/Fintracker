@@ -75,60 +75,72 @@ class _AccountForm extends State<AccountForm> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Container(
-                  height: 56,
-                  width: 56,
-                  decoration: BoxDecoration(
-                    color: _account!.color,
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
-                  child: Icon(_account!.icon, color: Colors.white),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Tên ví',
-                    hintText: 'Tên tài khoản',
-                    initialValue: _account!.name,
-                    onChanged: (text) => setState(() => _account!.name = text),
-                  ),
-                ),
-              ],
+            Text(
+              'Điền thông tin ví để quản lý dòng tiền chính xác hơn.',
+              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
             const SizedBox(height: AppSpacing.md),
-            AppTextField(
-              label: 'Tên chủ',
-              hintText: 'Nhập tên chủ tài khoản',
-              initialValue: _account!.holderName,
-              onChanged: (text) => setState(() => _account!.holderName = text),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AppTextField(
-              label: 'Số tài khoản',
-              hintText: 'Nhập số tài khoản',
-              initialValue: _account!.accountNumber,
-              onChanged: (text) => setState(() => _account!.accountNumber = text),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            IconColorPicker(
-              selectedColor: _account!.color,
-              selectedIcon: _account!.icon,
-              onColorChanged: (color) => setState(() => _account!.color = color),
-              onIconChanged: (icon) => setState(() => _account!.icon = icon),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            LayoutBuilder(
-              builder: (context, constraints) => SizedBox(
-                width: constraints.maxWidth,
-                child: AppButton(
-                  label: 'Lưu',
-                  onPressed: () => onSave(context),
-                  variant: AppButtonVariant.primary,
-                ),
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceVariant,
+                borderRadius: BorderRadius.circular(16),
               ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        height: 56,
+                        width: 56,
+                        decoration: BoxDecoration(
+                          color: _account!.color,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: Icon(_account!.icon, color: Colors.white),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: AppTextField(
+                          label: 'Tên ví',
+                          hintText: 'Tên tài khoản',
+                          initialValue: _account!.name,
+                          onChanged: (text) => setState(() => _account!.name = text),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: 'Tên chủ',
+                    hintText: 'Nhập tên chủ tài khoản',
+                    initialValue: _account!.holderName,
+                    onChanged: (text) => setState(() => _account!.holderName = text),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: 'Số tài khoản',
+                    hintText: 'Nhập số tài khoản',
+                    initialValue: _account!.accountNumber,
+                    onChanged: (text) => setState(() => _account!.accountNumber = text),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  IconColorPicker(
+                    selectedColor: _account!.color,
+                    selectedIcon: _account!.icon,
+                    onColorChanged: (color) => setState(() => _account!.color = color),
+                    onIconChanged: (icon) => setState(() => _account!.icon = icon),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            AppButton(
+              label: 'Lưu',
+              onPressed: () => onSave(context),
+              variant: AppButtonVariant.primary,
+              isFullWidth: true,
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:fintracker/theme/app_spacing.dart';
+import 'package:fintracker/theme/background.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
@@ -25,7 +26,7 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = Padding(padding: padding, child: body);
     final themedBody = Container(
-      color: Theme.of(context).colorScheme.background,
+      decoration: pageBackgroundDecoration(context),
       child: useSafeArea ? SafeArea(child: content) : content,
     );
 
