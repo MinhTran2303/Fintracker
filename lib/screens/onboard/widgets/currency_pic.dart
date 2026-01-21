@@ -61,14 +61,16 @@ class _CurrencyPicWidget extends State<CurrencyPicWidget> {
             style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: AppSpacing.lg),
-          AppTextField(
-            hintText: 'Tìm kiếm',
-            prefix: const Icon(Icons.search),
-            onChanged: (text) {
-              setState(() {
-                _keyword = text;
-              });
-            },
+          AppCard(
+            child: AppTextField(
+              hintText: 'Tìm kiếm',
+              prefix: const Icon(Icons.search),
+              onChanged: (text) {
+                setState(() {
+                  _keyword = text;
+                });
+              },
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           Expanded(

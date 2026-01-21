@@ -1,5 +1,6 @@
 import 'package:fintracker/bloc/cubit/app_cubit.dart';
 import 'package:fintracker/theme/app_spacing.dart';
+import 'package:fintracker/widgets/app/app_card.dart';
 import 'package:fintracker/widgets/app/app_scaffold.dart';
 import 'package:fintracker/widgets/app/app_text_field.dart';
 import 'package:fintracker/widgets/buttons/button.dart';
@@ -32,11 +33,23 @@ class ProfileWidget extends StatelessWidget {
             style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: AppSpacing.lg),
-          AppTextField(
-            controller: controller,
-            label: 'Tên',
-            hintText: 'Nhập tên của bạn',
-            prefix: const Icon(Icons.account_circle),
+          AppCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Hãy nhập tên để cá nhân hóa trải nghiệm.',
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AppTextField(
+                  controller: controller,
+                  label: 'Tên',
+                  hintText: 'Nhập tên của bạn',
+                  prefix: const Icon(Icons.account_circle),
+                ),
+              ],
+            ),
           ),
           const Spacer(),
           AppButton(

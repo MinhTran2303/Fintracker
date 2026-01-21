@@ -1,4 +1,5 @@
 import 'package:fintracker/theme/app_spacing.dart';
+import 'package:fintracker/widgets/app/app_card.dart';
 import 'package:fintracker/widgets/app/app_scaffold.dart';
 import 'package:fintracker/widgets/buttons/button.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,17 @@ class LandingPage extends StatelessWidget {
             style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: AppSpacing.lg),
-          _FeatureRow(text: 'Theo dõi thu chi nhanh chóng mỗi ngày.'),
-          const SizedBox(height: AppSpacing.sm),
-          _FeatureRow(text: 'Giữ ngân sách luôn trong tầm kiểm soát.'),
-          const SizedBox(height: AppSpacing.sm),
-          _FeatureRow(text: 'Tổng quan rõ ràng với biểu đồ và thống kê.'),
+          AppCard(
+            child: Column(
+              children: const [
+                _FeatureRow(text: 'Theo dõi thu chi nhanh chóng mỗi ngày.'),
+                SizedBox(height: AppSpacing.sm),
+                _FeatureRow(text: 'Giữ ngân sách luôn trong tầm kiểm soát.'),
+                SizedBox(height: AppSpacing.sm),
+                _FeatureRow(text: 'Tổng quan rõ ràng với biểu đồ và thống kê.'),
+              ],
+            ),
+          ),
           const Spacer(),
           Text(
             '*Ứng dụng đang ở giai đoạn beta, UI có thể thay đổi.',
