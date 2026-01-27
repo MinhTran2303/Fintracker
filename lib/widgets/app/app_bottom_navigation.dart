@@ -23,19 +23,13 @@ class AppBottomNavigation extends StatelessWidget {
           topLeft: Radius.circular(AppRadius.lg),
           topRight: Radius.circular(AppRadius.lg),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.shadow.withOpacity(0.08),
-            blurRadius: 20,
-            offset: const Offset(0, -6),
-          ),
-        ],
+        border: Border(top: BorderSide(color: theme.colorScheme.outline.withOpacity(0.6))),
       ),
       child: NavigationBar(
         selectedIndex: selectedIndex,
         onDestinationSelected: onDestinationSelected,
         backgroundColor: Colors.transparent,
-        indicatorColor: theme.colorScheme.primary.withOpacity(0.1),
+        indicatorColor: theme.colorScheme.primaryContainer,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: destinations,
       ),

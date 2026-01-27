@@ -26,7 +26,7 @@ class PaymentListItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(color: theme.colorScheme.outline.withOpacity(0.3)),
+          border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
         ),
         child: Row(
           children: [
@@ -35,7 +35,8 @@ class PaymentListItem extends StatelessWidget {
               width: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppRadius.md),
-                color: category.color.withOpacity(0.15),
+                color: theme.colorScheme.surfaceVariant,
+                border: Border.all(color: theme.colorScheme.outline.withOpacity(0.4)),
               ),
               child: Icon(category.icon, size: 18, color: category.color),
             ),

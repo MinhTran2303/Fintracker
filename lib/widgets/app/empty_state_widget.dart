@@ -22,9 +22,9 @@ class EmptyStateWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.savings_outlined, size: 52, color: theme.colorScheme.primary),
+        Icon(Icons.savings_outlined, size: 52, color: theme.colorScheme.onSurfaceVariant),
         const SizedBox(height: AppSpacing.lg),
-        Text(title, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
+        Text(title, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
         const SizedBox(height: AppSpacing.sm),
         Text(
           description,

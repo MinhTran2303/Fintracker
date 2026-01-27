@@ -48,10 +48,10 @@ class AppButton extends StatelessWidget {
         : theme.colorScheme.primary;
     final background = variant == AppButtonVariant.primary
         ? theme.colorScheme.primary
-        : Colors.transparent;
+        : theme.colorScheme.surface;
     final borderSide = variant == AppButtonVariant.primary
         ? BorderSide.none
-        : BorderSide(color: theme.colorScheme.primary, width: 1.4);
+        : BorderSide(color: theme.colorScheme.outline, width: 1);
 
     final labelStyle = theme.textTheme.labelLarge?.copyWith(color: foreground);
 
@@ -80,6 +80,7 @@ class AppButton extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: background,
                 foregroundColor: foreground,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.md),
                 ),
@@ -91,6 +92,7 @@ class AppButton extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: foreground,
                 side: borderSide,
+                backgroundColor: background,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.md),
                 ),

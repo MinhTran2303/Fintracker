@@ -18,6 +18,7 @@ class AppFAB extends StatelessWidget {
       onPressed: onPressed,
       backgroundColor: theme.colorScheme.primary,
       foregroundColor: theme.colorScheme.onPrimary,
+      elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
       child: Icon(icon),
     );

@@ -39,27 +39,40 @@ class AppTheme {
       backgroundColor: Colors.transparent,
       elevation: 0,
       centerTitle: false,
+      titleSpacing: 0,
     ),
     cardTheme: CardTheme(
       color: AppColors.lightSurface,
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        side: BorderSide(color: AppColors.lightOutline),
+      ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.lightSurface,
+      fillColor: AppColors.lightSurfaceVariant,
       labelStyle: const TextStyle(color: AppColors.lightOnSurfaceVariant),
       hintStyle: const TextStyle(color: AppColors.lightOnSurfaceVariant),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.lightOutline)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.lightOutline)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.primary, width: 1.5)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: BorderSide.none),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: BorderSide.none),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.primary, width: 1.4)),
     ),
     navigationBarTheme: NavigationBarThemeData(
       height: 70,
+      backgroundColor: AppColors.lightSurface,
+      indicatorColor: AppColors.primaryContainerLight,
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         final isSelected = states.contains(WidgetState.selected);
-        return TextStyle(fontSize: 12, fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500);
+        return TextStyle(fontSize: 11, fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500);
+      }),
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        final isSelected = states.contains(WidgetState.selected);
+        return IconThemeData(
+          size: 20,
+          color: isSelected ? AppColors.primary : AppColors.lightOnSurfaceVariant,
+        );
       }),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -104,27 +117,40 @@ class AppTheme {
       backgroundColor: Colors.transparent,
       elevation: 0,
       centerTitle: false,
+      titleSpacing: 0,
     ),
     cardTheme: CardTheme(
       color: AppColors.darkSurface,
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        side: BorderSide(color: AppColors.darkOutline),
+      ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.darkSurface,
+      fillColor: AppColors.darkSurfaceVariant,
       labelStyle: const TextStyle(color: AppColors.darkOnSurfaceVariant),
       hintStyle: const TextStyle(color: AppColors.darkOnSurfaceVariant),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.darkOutline)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.darkOutline)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.primary, width: 1.5)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: BorderSide.none),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: BorderSide.none),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadius.md), borderSide: const BorderSide(color: AppColors.primary, width: 1.4)),
     ),
     navigationBarTheme: NavigationBarThemeData(
       height: 70,
+      backgroundColor: AppColors.darkSurface,
+      indicatorColor: AppColors.primaryContainerDark,
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         final isSelected = states.contains(WidgetState.selected);
-        return TextStyle(fontSize: 12, fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500);
+        return TextStyle(fontSize: 11, fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500);
+      }),
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        final isSelected = states.contains(WidgetState.selected);
+        return IconThemeData(
+          size: 20,
+          color: isSelected ? AppColors.primary : AppColors.darkOnSurfaceVariant,
+        );
       }),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(

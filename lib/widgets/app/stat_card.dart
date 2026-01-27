@@ -24,9 +24,9 @@ class StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: theme.colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.3)),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.4)),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -44,8 +44,9 @@ class StatCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(iconPadding),
                 decoration: BoxDecoration(
-                  color: accentColor.withOpacity(0.12),
+                  color: theme.colorScheme.surface,
                   borderRadius: BorderRadius.circular(AppRadius.md),
+                  border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                 ),
                 child: Icon(icon, color: accentColor, size: iconSize),
               ),
