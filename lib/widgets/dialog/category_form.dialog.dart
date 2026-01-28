@@ -1,12 +1,12 @@
-import 'package:fintracker/dao/category_dao.dart';
-import 'package:fintracker/events.dart';
-import 'package:fintracker/model/category.model.dart';
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/app/app_card.dart';
-import 'package:fintracker/widgets/app/app_text_field.dart';
-import 'package:fintracker/widgets/app/icon_color_picker.dart';
-import 'package:fintracker/widgets/buttons/button.dart';
-import 'package:fintracker/widgets/currency.dart';
+import 'package:SpendingMonitor/dao/category_dao.dart';
+import 'package:SpendingMonitor/events.dart';
+import 'package:SpendingMonitor/model/category.model.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/app/app_card.dart';
+import 'package:SpendingMonitor/widgets/app/app_text_field.dart';
+import 'package:SpendingMonitor/widgets/app/icon_color_picker.dart';
+import 'package:SpendingMonitor/widgets/buttons/button.dart';
+import 'package:SpendingMonitor/widgets/currency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

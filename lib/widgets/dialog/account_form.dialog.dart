@@ -1,11 +1,11 @@
-import 'package:fintracker/dao/account_dao.dart';
-import 'package:fintracker/events.dart';
-import 'package:fintracker/model/account.model.dart';
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/app/app_card.dart';
-import 'package:fintracker/widgets/app/app_text_field.dart';
-import 'package:fintracker/widgets/app/icon_color_picker.dart';
-import 'package:fintracker/widgets/buttons/button.dart';
+import 'package:SpendingMonitor/dao/account_dao.dart';
+import 'package:SpendingMonitor/events.dart';
+import 'package:SpendingMonitor/model/account.model.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/app/app_card.dart';
+import 'package:SpendingMonitor/widgets/app/app_text_field.dart';
+import 'package:SpendingMonitor/widgets/app/icon_color_picker.dart';
+import 'package:SpendingMonitor/widgets/buttons/button.dart';
 import 'package:flutter/material.dart';
 
 typedef Callback = void Function();

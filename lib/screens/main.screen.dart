@@ -1,10 +1,10 @@
-import 'package:fintracker/bloc/cubit/app_cubit.dart';
-import 'package:fintracker/screens/accounts/accounts.screen.dart';
-import 'package:fintracker/screens/categories/categories.screen.dart';
-import 'package:fintracker/screens/home/home.screen.dart';
-import 'package:fintracker/screens/onboard/onboard_screen.dart';
-import 'package:fintracker/screens/settings/settings.screen.dart';
-import 'package:fintracker/widgets/app/app_bottom_navigation.dart';
+import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
+import 'package:SpendingMonitor/screens/accounts/accounts.screen.dart';
+import 'package:SpendingMonitor/screens/categories/categories.screen.dart';
+import 'package:SpendingMonitor/screens/home/home.screen.dart';
+import 'package:SpendingMonitor/screens/onboard/onboard_screen.dart';
+import 'package:SpendingMonitor/screens/settings/settings.screen.dart';
+import 'package:SpendingMonitor/widgets/app/app_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_symbols_icons/symbols.dart';

@@ -3,7 +3,7 @@ import "dart:convert";
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:path/path.dart";
-import "package:fintracker/helpers/migrations/migrations.dart";
+import "package:SpendingMonitor/helpers/migrations/migrations.dart";
 import "package:sqflite_common_ffi/sqflite_ffi.dart";
 
 import 'package:path_provider/path_provider.dart';

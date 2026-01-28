@@ -1,15 +1,15 @@
 import 'package:events_emitter/events_emitter.dart';
-import 'package:fintracker/dao/category_dao.dart';
-import 'package:fintracker/events.dart';
-import 'package:fintracker/model/category.model.dart';
-import 'package:fintracker/helpers/currency.helper.dart';
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/app/app_card.dart';
-import 'package:fintracker/widgets/app/app_fab.dart';
-import 'package:fintracker/widgets/app/app_scaffold.dart';
-import 'package:fintracker/widgets/app/empty_state_widget.dart';
-import 'package:fintracker/widgets/app/section_header.dart';
-import 'package:fintracker/widgets/dialog/category_form.dialog.dart';
+import 'package:SpendingMonitor/dao/category_dao.dart';
+import 'package:SpendingMonitor/events.dart';
+import 'package:SpendingMonitor/model/category.model.dart';
+import 'package:SpendingMonitor/helpers/currency.helper.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/app/app_card.dart';
+import 'package:SpendingMonitor/widgets/app/app_fab.dart';
+import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
+import 'package:SpendingMonitor/widgets/app/empty_state_widget.dart';
+import 'package:SpendingMonitor/widgets/app/section_header.dart';
+import 'package:SpendingMonitor/widgets/dialog/category_form.dialog.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatefulWidget {

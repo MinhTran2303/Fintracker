@@ -1,6 +1,6 @@
-import 'package:fintracker/bloc/cubit/app_cubit.dart';
-import 'package:fintracker/screens/main.screen.dart';
-import 'package:fintracker/theme/app_theme.dart';
+import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
+import 'package:SpendingMonitor/screens/main.screen.dart';
+import 'package:SpendingMonitor/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

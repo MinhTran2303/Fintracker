@@ -1,6 +1,6 @@
 import 'package:currency_picker/currency_picker.dart';
-import 'package:fintracker/bloc/cubit/app_cubit.dart';
-import 'package:fintracker/helpers/currency.helper.dart';
+import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
+import 'package:SpendingMonitor/helpers/currency.helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,6 +1,6 @@
-import 'package:fintracker/app.dart';
-import 'package:fintracker/bloc/cubit/app_cubit.dart';
-import 'package:fintracker/helpers/db.helper.dart';
+import 'package:SpendingMonitor/app.dart';
+import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
+import 'package:SpendingMonitor/helpers/db.helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

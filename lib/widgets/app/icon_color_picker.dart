@@ -1,6 +1,6 @@
-import 'package:fintracker/data/icons.dart';
-import 'package:fintracker/theme/app_radius.dart';
-import 'package:fintracker/theme/app_spacing.dart';
+import 'package:SpendingMonitor/data/icons.dart';
+import 'package:SpendingMonitor/theme/app_radius.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 class IconColorPicker extends StatelessWidget {

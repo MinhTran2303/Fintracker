@@ -1,15 +1,15 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:fintracker/bloc/cubit/app_cubit.dart';
-import 'package:fintracker/helpers/db.helper.dart';
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/app/app_card.dart';
-import 'package:fintracker/widgets/app/app_scaffold.dart';
-import 'package:fintracker/widgets/app/app_text_field.dart';
-import 'package:fintracker/widgets/app/section_header.dart';
-import 'package:fintracker/widgets/buttons/button.dart';
-import 'package:fintracker/widgets/dialog/confirm.modal.dart';
-import 'package:fintracker/widgets/dialog/loading_dialog.dart';
+import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
+import 'package:SpendingMonitor/helpers/db.helper.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/app/app_card.dart';
+import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
+import 'package:SpendingMonitor/widgets/app/app_text_field.dart';
+import 'package:SpendingMonitor/widgets/app/section_header.dart';
+import 'package:SpendingMonitor/widgets/buttons/button.dart';
+import 'package:SpendingMonitor/widgets/dialog/confirm.modal.dart';
+import 'package:SpendingMonitor/widgets/dialog/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

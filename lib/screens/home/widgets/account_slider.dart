@@ -1,7 +1,7 @@
-import 'package:fintracker/model/account.model.dart';
-import 'package:fintracker/theme/app_radius.dart';
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/currency.dart';
+import 'package:SpendingMonitor/model/account.model.dart';
+import 'package:SpendingMonitor/theme/app_radius.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/currency.dart';
 import 'package:flutter/material.dart';
 
 class AccountsSlider extends StatefulWidget {

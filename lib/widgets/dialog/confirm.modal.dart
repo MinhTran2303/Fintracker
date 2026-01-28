@@ -1,4 +1,4 @@
-import 'package:fintracker/widgets/buttons/button.dart';
+import 'package:SpendingMonitor/widgets/buttons/button.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmModal extends StatelessWidget {

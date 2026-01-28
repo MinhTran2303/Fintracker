@@ -1,8 +1,8 @@
-import 'package:fintracker/bloc/cubit/app_cubit.dart';
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/app/app_scaffold.dart';
-import 'package:fintracker/widgets/app/app_text_field.dart';
-import 'package:fintracker/widgets/buttons/button.dart';
+import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
+import 'package:SpendingMonitor/widgets/app/app_text_field.dart';
+import 'package:SpendingMonitor/widgets/buttons/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

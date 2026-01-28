@@ -1,7 +1,7 @@
-import 'package:fintracker/model/payment.model.dart';
-import 'package:fintracker/helpers/currency.helper.dart';
-import 'package:fintracker/theme/app_radius.dart';
-import 'package:fintracker/theme/app_spacing.dart';
+import 'package:SpendingMonitor/model/payment.model.dart';
+import 'package:SpendingMonitor/helpers/currency.helper.dart';
+import 'package:SpendingMonitor/theme/app_radius.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

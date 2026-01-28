@@ -1,15 +1,15 @@
-import 'package:fintracker/model/account.model.dart';
-import 'package:fintracker/helpers/currency.helper.dart';
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/app/app_card.dart';
-import 'package:fintracker/widgets/app/app_scaffold.dart';
-import 'package:fintracker/widgets/app/section_header.dart';
+import 'package:SpendingMonitor/model/account.model.dart';
+import 'package:SpendingMonitor/helpers/currency.helper.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/app/app_card.dart';
+import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
+import 'package:SpendingMonitor/widgets/app/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:fintracker/dao/payment_dao.dart';
-import 'package:fintracker/model/payment.model.dart';
+import 'package:SpendingMonitor/dao/payment_dao.dart';
+import 'package:SpendingMonitor/model/payment.model.dart';
 import 'package:events_emitter/events_emitter.dart';
-import 'package:fintracker/events.dart';
+import 'package:SpendingMonitor/events.dart';
 
 class WalletDetailScreen extends StatefulWidget {
   final Account account;

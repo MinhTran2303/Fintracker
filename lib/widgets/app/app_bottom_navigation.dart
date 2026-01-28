@@ -1,4 +1,4 @@
-import 'package:fintracker/theme/app_radius.dart';
+import 'package:SpendingMonitor/theme/app_radius.dart';
 import 'package:flutter/material.dart';
 
 class AppBottomNavigation extends StatelessWidget {

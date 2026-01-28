@@ -1,6 +1,6 @@
-import 'package:fintracker/theme/app_spacing.dart';
-import 'package:fintracker/widgets/app/app_scaffold.dart';
-import 'package:fintracker/widgets/buttons/button.dart';
+import 'package:SpendingMonitor/theme/app_spacing.dart';
+import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
+import 'package:SpendingMonitor/widgets/buttons/button.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatelessWidget {

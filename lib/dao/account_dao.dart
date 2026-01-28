@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:fintracker/helpers/db.helper.dart';
-import 'package:fintracker/model/account.model.dart';
+import 'package:SpendingMonitor/helpers/db.helper.dart';
+import 'package:SpendingMonitor/model/account.model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AccountDao {

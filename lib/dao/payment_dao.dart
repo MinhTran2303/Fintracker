@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:fintracker/dao/account_dao.dart';
-import 'package:fintracker/dao/category_dao.dart';
-import 'package:fintracker/helpers/db.helper.dart';
-import 'package:fintracker/model/account.model.dart';
-import 'package:fintracker/model/category.model.dart';
-import 'package:fintracker/model/payment.model.dart';
+import 'package:SpendingMonitor/dao/account_dao.dart';
+import 'package:SpendingMonitor/dao/category_dao.dart';
+import 'package:SpendingMonitor/helpers/db.helper.dart';
+import 'package:SpendingMonitor/model/account.model.dart';
+import 'package:SpendingMonitor/model/category.model.dart';
+import 'package:SpendingMonitor/model/payment.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
