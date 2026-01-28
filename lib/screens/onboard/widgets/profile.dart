@@ -28,8 +28,13 @@ class ProfileWidget extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
             ),
-            child: Icon(Icons.account_balance_wallet, size: 32, color: theme.colorScheme.primary),
-          ),
+      child: ClipOval(
+        child: Image.asset(
+          'assets/images/LogoSpendingMonitor.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    ),
           const SizedBox(height: AppSpacing.xl),
           Text(
             'Chào mừng đến Fintracker',
