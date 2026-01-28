@@ -12,16 +12,16 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: MediaQuery.of(context).platformBrightness,
+      statusBarIconBrightness: Brightness.light,
     ));
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Fintracker',
-          theme: AppTheme.lightTheme,
+          theme: AppTheme.darkTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.system,
+          themeMode: ThemeMode.dark,
           home: const MainScreen(),
           localizationsDelegates: const [
             GlobalWidgetsLocalizations.delegate,

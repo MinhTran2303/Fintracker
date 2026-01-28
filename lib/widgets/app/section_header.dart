@@ -1,6 +1,23 @@
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
+String translateCategoryName(String name) {
+  const translations = {
+    'Housing': 'Nhà ở',
+    'Transportation': 'Di chuyển',
+    'Food': 'Ăn uống',
+    'Utilities': 'Tiện ích',
+    'Insurance': 'Bảo hiểm',
+    'Medical & Healthcare': 'Y tế & chăm sóc sức khỏe',
+    'Saving, Investing, & Debt Payments': 'Tiết kiệm, đầu tư & trả nợ',
+    'Personal Spending': 'Chi tiêu cá nhân',
+    'Recreation & Entertainment': 'Giải trí',
+    'Miscellaneous': 'Khác',
+  };
+
+  return translations[name] ?? name;
+}
+
 class SectionHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
