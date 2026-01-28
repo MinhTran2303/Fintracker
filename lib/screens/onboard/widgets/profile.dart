@@ -18,8 +18,8 @@ class ProfileWidget extends StatelessWidget {
     return AppScaffold(
       padding: EdgeInsets.zero,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -155,7 +155,7 @@ class ProfileWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              const Spacer(),
+              const SizedBox(height: AppSpacing.xl),
               AppButton(
                 label: 'Bắt đầu hành trình',
                 icon: Icons.arrow_forward,
@@ -171,7 +171,6 @@ class ProfileWidget extends StatelessWidget {
                   }
                 },
               ),
-              const SizedBox(height: AppSpacing.lg),
             ],
           ),
         ),
