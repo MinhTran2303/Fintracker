@@ -427,7 +427,7 @@ class _PaymentForm extends State<PaymentForm> {
                                               borderRadius: BorderRadius.circular(12),
                                               border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                                             ),
-                                            child: Icon(Icons.add, color: theme.colorScheme.primary, size: 18),
+                                            child: Icon(Icons.library_add, color: theme.colorScheme.primary, size: 18),
                                           ),
                                           const SizedBox(width: AppSpacing.sm),
                                           Expanded(
@@ -462,7 +462,11 @@ class _PaymentForm extends State<PaymentForm> {
                                             borderRadius: BorderRadius.circular(12),
                                             border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                                           ),
-                                          child: Icon(category.icon, color: category.color, size: 18),
+                                          child: Icon(
+                                            isSelected ? Icons.check_circle : Icons.layers,
+                                            color: isSelected ? theme.colorScheme.primary : category.color,
+                                            size: 18,
+                                          ),
                                         ),
                                         const SizedBox(width: AppSpacing.sm),
                                         Expanded(
