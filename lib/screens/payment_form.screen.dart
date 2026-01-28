@@ -185,6 +185,44 @@ class _PaymentForm extends State<PaymentForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppCard(
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceVariant,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                          ),
+                          child: Icon(
+                            widget.payment == null ? Icons.add_circle_outline : Icons.edit,
+                            color: theme.colorScheme.primary,
+                            size: 22,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.payment == null ? 'Tạo giao dịch' : 'Cập nhật giao dịch',
+                                style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              Text(
+                                'Ghi lại thu chi để theo dõi dòng tiền.',
+                                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  AppCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -2,6 +2,7 @@ import 'package:fintracker/dao/account_dao.dart';
 import 'package:fintracker/events.dart';
 import 'package:fintracker/model/account.model.dart';
 import 'package:fintracker/theme/app_spacing.dart';
+import 'package:fintracker/widgets/app/app_card.dart';
 import 'package:fintracker/widgets/app/app_text_field.dart';
 import 'package:fintracker/widgets/app/icon_color_picker.dart';
 import 'package:fintracker/widgets/buttons/button.dart';
@@ -64,11 +65,7 @@ class _AccountForm extends State<AccountForm> {
 
     return AlertDialog(
       backgroundColor: theme.colorScheme.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: Text(
-        widget.account != null ? 'Chỉnh sửa ví' : 'Ví mới',
-        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       insetPadding: const EdgeInsets.all(20),
       content: SingleChildScrollView(
         child: Column(
@@ -78,39 +75,61 @@ class _AccountForm extends State<AccountForm> {
             Row(
               children: [
                 Container(
-                  height: 56,
-                  width: 56,
+                  height: 48,
+                  width: 48,
                   decoration: BoxDecoration(
-                    color: _account!.color,
-                    shape: BoxShape.circle,
+                    color: theme.colorScheme.surfaceVariant,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                   ),
                   alignment: Alignment.center,
-                  child: Icon(_account!.icon, color: Colors.white),
+                  child: Icon(_account!.icon, color: _account!.color, size: 22),
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
-                  child: AppTextField(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.account != null ? 'Chỉnh sửa ví' : 'Ví mới',
+                        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        'Thiết lập thông tin ví để theo dõi số dư.',
+                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            AppCard(
+              child: Column(
+                children: [
+                  AppTextField(
                     label: 'Tên ví',
                     hintText: 'Tên tài khoản',
                     initialValue: _account!.name,
                     onChanged: (text) => setState(() => _account!.name = text),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AppTextField(
-              label: 'Tên chủ',
-              hintText: 'Nhập tên chủ tài khoản',
-              initialValue: _account!.holderName,
-              onChanged: (text) => setState(() => _account!.holderName = text),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AppTextField(
-              label: 'Số tài khoản',
-              hintText: 'Nhập số tài khoản',
-              initialValue: _account!.accountNumber,
-              onChanged: (text) => setState(() => _account!.accountNumber = text),
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: 'Tên chủ',
+                    hintText: 'Nhập tên chủ tài khoản',
+                    initialValue: _account!.holderName,
+                    onChanged: (text) => setState(() => _account!.holderName = text),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: 'Số tài khoản',
+                    hintText: 'Nhập số tài khoản',
+                    initialValue: _account!.accountNumber,
+                    onChanged: (text) => setState(() => _account!.accountNumber = text),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: AppSpacing.lg),
             IconColorPicker(
@@ -120,15 +139,24 @@ class _AccountForm extends State<AccountForm> {
               onIconChanged: (icon) => setState(() => _account!.icon = icon),
             ),
             const SizedBox(height: AppSpacing.lg),
-            LayoutBuilder(
-              builder: (context, constraints) => SizedBox(
-                width: constraints.maxWidth,
-                child: AppButton(
-                  label: 'Lưu',
-                  onPressed: () => onSave(context),
-                  variant: AppButtonVariant.primary,
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    label: 'Hủy',
+                    variant: AppButtonVariant.secondary,
+                    onPressed: () => Navigator.pop(context),
+                  ),
                 ),
-              ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: AppButton(
+                    label: 'Lưu',
+                    onPressed: () => onSave(context),
+                    variant: AppButtonVariant.primary,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

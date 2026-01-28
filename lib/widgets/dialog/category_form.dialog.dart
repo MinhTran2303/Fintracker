@@ -2,6 +2,7 @@ import 'package:fintracker/dao/category_dao.dart';
 import 'package:fintracker/events.dart';
 import 'package:fintracker/model/category.model.dart';
 import 'package:fintracker/theme/app_spacing.dart';
+import 'package:fintracker/widgets/app/app_card.dart';
 import 'package:fintracker/widgets/app/app_text_field.dart';
 import 'package:fintracker/widgets/app/icon_color_picker.dart';
 import 'package:fintracker/widgets/buttons/button.dart';
@@ -49,11 +50,7 @@ class _CategoryForm extends State<CategoryForm> {
       scrollable: true,
       insetPadding: const EdgeInsets.all(16),
       backgroundColor: theme.colorScheme.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: Text(
-        widget.category != null ? 'Chỉnh sửa danh mục' : 'Danh mục mới',
-        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       content: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -63,41 +60,63 @@ class _CategoryForm extends State<CategoryForm> {
             Row(
               children: [
                 Container(
-                  height: 56,
-                  width: 56,
+                  height: 48,
+                  width: 48,
                   decoration: BoxDecoration(
-                    color: _category.color,
-                    shape: BoxShape.circle,
+                    color: theme.colorScheme.surfaceVariant,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                   ),
                   alignment: Alignment.center,
-                  child: Icon(_category.icon, color: Colors.white),
+                  child: Icon(_category.icon, color: _category.color, size: 22),
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
-                  child: AppTextField(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.category != null ? 'Chỉnh sửa danh mục' : 'Danh mục mới',
+                        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        'Tạo nhóm chi tiêu để quản lý ngân sách.',
+                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            AppCard(
+              child: Column(
+                children: [
+                  AppTextField(
                     label: 'Tên danh mục',
                     hintText: 'Nhập tên danh mục',
                     initialValue: _category.name,
                     onChanged: (text) => setState(() => _category.name = text),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AppTextField(
-              label: 'Ngân sách',
-              hintText: 'Nhập ngân sách',
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
-              ],
-              initialValue: _category.budget == null ? '' : _category.budget.toString(),
-              prefix: CurrencyText(null),
-              onChanged: (text) {
-                setState(() {
-                  _category.budget = double.parse(text.isEmpty ? '0' : text);
-                });
-              },
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: 'Ngân sách',
+                    hintText: 'Nhập ngân sách',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
+                    ],
+                    initialValue: _category.budget == null ? '' : _category.budget.toString(),
+                    prefix: CurrencyText(null),
+                    onChanged: (text) {
+                      setState(() {
+                        _category.budget = double.parse(text.isEmpty ? '0' : text);
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: AppSpacing.lg),
             IconColorPicker(
@@ -110,11 +129,24 @@ class _CategoryForm extends State<CategoryForm> {
         ),
       ),
       actions: [
-        AppButton(
-          label: 'Lưu',
-          onPressed: () => onSave(context),
-          variant: AppButtonVariant.primary,
-          isFullWidth: true,
+        Row(
+          children: [
+            Expanded(
+              child: AppButton(
+                label: 'Hủy',
+                variant: AppButtonVariant.secondary,
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: AppButton(
+                label: 'Lưu',
+                onPressed: () => onSave(context),
+                variant: AppButtonVariant.primary,
+              ),
+            ),
+          ],
         ),
       ],
     );
