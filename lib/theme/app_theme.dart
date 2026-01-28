@@ -36,10 +36,13 @@ class AppTheme {
     textTheme: AppTextStyles.lightTextTheme,
     scaffoldBackgroundColor: AppColors.lightBackground,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.lightSurface,
       elevation: 0,
       centerTitle: false,
-      titleSpacing: 0,
+      titleSpacing: 16,
+      scrolledUnderElevation: 1,
+      shadowColor: AppColors.lightOutline,
+      shape: Border(bottom: BorderSide(color: AppColors.lightOutline, width: 0.6)),
     ),
     cardTheme: CardTheme(
       color: AppColors.lightSurface,
@@ -123,10 +126,13 @@ class AppTheme {
     textTheme: AppTextStyles.darkTextTheme,
     scaffoldBackgroundColor: AppColors.darkBackground,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.darkSurface,
       elevation: 0,
       centerTitle: false,
-      titleSpacing: 0,
+      titleSpacing: 16,
+      scrolledUnderElevation: 1,
+      shadowColor: AppColors.darkOutline,
+      shape: Border(bottom: BorderSide(color: AppColors.darkOutline, width: 0.6)),
     ),
     cardTheme: CardTheme(
       color: AppColors.darkSurface,
