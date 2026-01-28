@@ -402,46 +402,103 @@ class _PaymentForm extends State<PaymentForm> {
                       children: [
                         Text('Chọn danh mục', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                         const SizedBox(height: AppSpacing.sm),
-                        Wrap(
-                          spacing: AppSpacing.sm,
-                          runSpacing: AppSpacing.sm,
-                          children: List.generate(_categories.length + 1, (index) {
-                            if (_categories.length == index) {
-                              return AppButton(
-                                label: 'Tạo mới',
-                                icon: Icons.add,
-                                variant: AppButtonVariant.secondary,
-                                onPressed: () {
-                                  showDialog(context: context, builder: (builder) => const CategoryForm());
-                                },
-                              );
-                            }
-                            Category category = _categories[index];
-                            final isSelected = _category?.id == category.id;
-                            return ChoiceChip(
-                              label: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(category.icon, color: category.color, size: 18),
-                                  const SizedBox(width: AppSpacing.xs),
-                                  Text(category.name),
-                                ],
-                              ),
-                              selected: isSelected,
-                              onSelected: (_) {
-                                setState(() {
-                                  _category = category;
-                                });
-                              },
-                              selectedColor: theme.colorScheme.primaryContainer,
-                              backgroundColor: theme.colorScheme.surfaceVariant,
-                              labelStyle: theme.textTheme.bodySmall?.copyWith(
-                                color: isSelected
-                                    ? theme.colorScheme.onPrimaryContainer
-                                    : theme.colorScheme.onSurface,
-                              ),
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            final availableWidth = constraints.maxWidth;
+                            final itemWidth = (availableWidth - AppSpacing.sm) / 2;
+                            return Wrap(
+                              spacing: AppSpacing.sm,
+                              runSpacing: AppSpacing.sm,
+                              children: List.generate(_categories.length + 1, (index) {
+                                if (_categories.length == index) {
+                                  return SizedBox(
+                                    width: itemWidth,
+                                    child: AppCard(
+                                      onTap: () {
+                                        showDialog(context: context, builder: (builder) => const CategoryForm());
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                              color: theme.colorScheme.surfaceVariant,
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                                            ),
+                                            child: Icon(Icons.add, color: theme.colorScheme.primary, size: 18),
+                                          ),
+                                          const SizedBox(width: AppSpacing.sm),
+                                          Expanded(
+                                            child: Text(
+                                              'Tạo mới',
+                                              style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                                Category category = _categories[index];
+                                final isSelected = _category?.id == category.id;
+                                return SizedBox(
+                                  width: itemWidth,
+                                  child: AppCard(
+                                    onTap: () {
+                                      setState(() {
+                                        _category = category;
+                                      });
+                                    },
+                                    color: isSelected ? theme.colorScheme.primaryContainer : theme.colorScheme.surface,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 36,
+                                          height: 36,
+                                          decoration: BoxDecoration(
+                                            color: theme.colorScheme.surfaceVariant,
+                                            borderRadius: BorderRadius.circular(12),
+                                            border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                                          ),
+                                          child: Icon(category.icon, color: category.color, size: 18),
+                                        ),
+                                        const SizedBox(width: AppSpacing.sm),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                category.name,
+                                                style: theme.textTheme.bodySmall?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: isSelected
+                                                      ? theme.colorScheme.onPrimaryContainer
+                                                      : theme.colorScheme.onSurface,
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              const SizedBox(height: AppSpacing.xs),
+                                              Text(
+                                                'Chọn',
+                                                style: theme.textTheme.labelSmall?.copyWith(
+                                                  color: isSelected
+                                                      ? theme.colorScheme.onPrimaryContainer
+                                                      : theme.colorScheme.onSurfaceVariant,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
                             );
-                          }),
+                          },
                         ),
                       ],
                     ),
