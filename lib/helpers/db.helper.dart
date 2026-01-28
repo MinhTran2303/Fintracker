@@ -67,16 +67,16 @@ Future<void> resetDatabase() async {
 
   //prefill all categories
   List<Map<String, dynamic>> categories = [
-    {"name": "Housing", "icon": Icons.house.codePoint},
-    {"name": "Transportation", "icon": Icons.emoji_transportation.codePoint},
-    {"name": "Food", "icon": Icons.restaurant.codePoint},
-    {"name": "Utilities", "icon": Icons.category.codePoint},
-    {"name": "Insurance", "icon": Icons.health_and_safety.codePoint},
-    {"name": "Medical & Healthcare", "icon": Icons.medical_information.codePoint},
-    {"name": "Saving, Investing, & Debt Payments", "icon": Icons.attach_money.codePoint},
-    {"name": "Personal Spending", "icon": Icons.house.codePoint},
-    {"name": "Recreation & Entertainment", "icon": Icons.tv.codePoint},
-    {"name": "Miscellaneous", "icon": Icons.library_books_sharp.codePoint},
+    {"name": "Nhà ở", "icon": Icons.house.codePoint},
+    {"name": "Di chuyển", "icon": Icons.emoji_transportation.codePoint},
+    {"name": "Ăn uống", "icon": Icons.restaurant.codePoint},
+    {"name": "Tiện ích", "icon": Icons.category.codePoint},
+    {"name": "Bảo hiểm", "icon": Icons.health_and_safety.codePoint},
+    {"name": "Y tế & chăm sóc sức khỏe", "icon": Icons.medical_information.codePoint},
+    {"name": "Tiết kiệm, đầu tư & trả nợ", "icon": Icons.attach_money.codePoint},
+    {"name": "Chi tiêu cá nhân", "icon": Icons.house.codePoint},
+    {"name": "Giải trí & thư giãn", "icon": Icons.tv.codePoint},
+    {"name": "Khác", "icon": Icons.library_books_sharp.codePoint},
   ];
 
   int index = 0;

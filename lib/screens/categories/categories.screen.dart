@@ -148,7 +148,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   const SizedBox(width: AppSpacing.md),
                                   Expanded(
                                     child: Text(
-                                      category.name,
+                                      translateCategoryName(category.name),
                                       style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                                     ),
                                   ),
