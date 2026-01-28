@@ -23,9 +23,19 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final content = Padding(padding: padding, child: body);
     final themedBody = Container(
-      color: Theme.of(context).colorScheme.background,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            theme.colorScheme.background,
+            theme.colorScheme.surfaceVariant.withOpacity(0.6),
+          ],
+        ),
+      ),
       child: useSafeArea ? SafeArea(child: content) : content,
     );
 

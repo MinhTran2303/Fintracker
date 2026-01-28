@@ -19,7 +19,7 @@ class LandingPage extends StatelessWidget {
             'Fintracker',
             style: theme.textTheme.displaySmall?.copyWith(
               color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -27,12 +27,24 @@ class LandingPage extends StatelessWidget {
             'Quản lý tài chính cá nhân một cách tinh gọn',
             style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
-          const SizedBox(height: AppSpacing.lg),
-          _FeatureRow(text: 'Theo dõi thu chi nhanh chóng mỗi ngày.'),
-          const SizedBox(height: AppSpacing.sm),
-          _FeatureRow(text: 'Giữ ngân sách luôn trong tầm kiểm soát.'),
-          const SizedBox(height: AppSpacing.sm),
-          _FeatureRow(text: 'Tổng quan rõ ràng với biểu đồ và thống kê.'),
+          const SizedBox(height: AppSpacing.xl),
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+            ),
+            child: Column(
+              children: const [
+                _FeatureRow(text: 'Theo dõi thu chi nhanh chóng mỗi ngày.'),
+                SizedBox(height: AppSpacing.sm),
+                _FeatureRow(text: 'Giữ ngân sách luôn trong tầm kiểm soát.'),
+                SizedBox(height: AppSpacing.sm),
+                _FeatureRow(text: 'Tổng quan rõ ràng với biểu đồ và thống kê.'),
+              ],
+            ),
+          ),
           const Spacer(),
           Text(
             '*Ứng dụng đang ở giai đoạn beta, UI có thể thay đổi.',
@@ -60,7 +72,14 @@ class _FeatureRow extends StatelessWidget {
     final theme = Theme.of(context);
     return Row(
       children: [
-        Icon(Icons.check_circle, color: theme.colorScheme.primary),
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary,
+            shape: BoxShape.circle,
+          ),
+        ),
         const SizedBox(width: AppSpacing.md),
         Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
       ],

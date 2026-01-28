@@ -49,6 +49,7 @@ class AppTheme {
         side: BorderSide(color: AppColors.lightOutline),
       ),
     ),
+    dividerColor: AppColors.lightOutline,
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.lightSurfaceVariant,
@@ -74,6 +75,14 @@ class AppTheme {
           color: isSelected ? AppColors.primary : AppColors.lightOnSurfaceVariant,
         );
       }),
+    ),
+    chipTheme: ChipThemeData(
+      backgroundColor: AppColors.lightSurfaceVariant,
+      selectedColor: AppColors.primaryContainerLight,
+      labelStyle: AppTextStyles.lightTextTheme.bodySmall?.copyWith(color: AppColors.lightOnSurface),
+      secondaryLabelStyle: AppTextStyles.lightTextTheme.bodySmall?.copyWith(color: AppColors.lightOnSurface),
+      side: BorderSide(color: AppColors.lightOutline),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppColors.primary,
@@ -127,6 +136,7 @@ class AppTheme {
         side: BorderSide(color: AppColors.darkOutline),
       ),
     ),
+    dividerColor: AppColors.darkOutline,
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.darkSurfaceVariant,
@@ -152,6 +162,14 @@ class AppTheme {
           color: isSelected ? AppColors.primary : AppColors.darkOnSurfaceVariant,
         );
       }),
+    ),
+    chipTheme: ChipThemeData(
+      backgroundColor: AppColors.darkSurfaceVariant,
+      selectedColor: AppColors.primaryContainerDark,
+      labelStyle: AppTextStyles.darkTextTheme.bodySmall?.copyWith(color: AppColors.darkOnSurface),
+      secondaryLabelStyle: AppTextStyles.darkTextTheme.bodySmall?.copyWith(color: AppColors.darkOnSurface),
+      side: BorderSide(color: AppColors.darkOutline),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppColors.primary,

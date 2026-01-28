@@ -26,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final theme = Theme.of(context);
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Cài đặt', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
+        title: Text('Cài đặt', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
       body: ListView(
@@ -38,7 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: AppSpacing.md),
           AppCard(
             child: ListTile(
-              leading: Icon(Icons.person_outline, color: theme.colorScheme.primary),
+              leading: _SettingsIcon(icon: Icons.person_outline, color: theme.colorScheme.primary),
               title: Text('Tên', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
               subtitle: BlocBuilder<AppCubit, AppState>(
                 builder: (context, state) {
@@ -48,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                 },
               ),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
               onTap: () {
                 showDialog(
                   context: context,
@@ -105,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: AppSpacing.md),
           AppCard(
             child: ListTile(
-              leading: Icon(Icons.currency_exchange, color: theme.colorScheme.primary),
+              leading: _SettingsIcon(icon: Icons.currency_exchange, color: theme.colorScheme.primary),
               title: Text('Tiền tệ', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
               subtitle: BlocBuilder<AppCubit, AppState>(
                 builder: (context, state) {
@@ -121,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                 },
               ),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
               onTap: () {
                 showCurrencyPicker(
                   context: context,
@@ -142,10 +142,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.download, color: theme.colorScheme.primary),
+                  leading: _SettingsIcon(icon: Icons.download, color: theme.colorScheme.primary),
                   title: Text('Xuất dữ liệu', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
                   subtitle: Text('Xuất ra tệp', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                  trailing: const Icon(Icons.chevron_right),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
                   onTap: () async {
                     ConfirmModal.showConfirmDialog(
                       context,
@@ -170,12 +170,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     );
                   },
                 ),
-                const Divider(height: 1),
+                Divider(height: 1, color: theme.colorScheme.outline.withOpacity(0.6)),
                 ListTile(
-                  leading: Icon(Icons.upload, color: theme.colorScheme.primary),
+                  leading: _SettingsIcon(icon: Icons.upload, color: theme.colorScheme.primary),
                   title: Text('Nhập dữ liệu', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
                   subtitle: Text('Nhập từ tệp sao lưu', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                  trailing: const Icon(Icons.chevron_right),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
                   onTap: () async {
                     try {
                       FilePickerResult? pick;
@@ -248,6 +248,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SettingsIcon extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+
+  const _SettingsIcon({
+    required this.icon,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceVariant,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+      ),
+      child: Icon(icon, color: color, size: 20),
     );
   }
 }

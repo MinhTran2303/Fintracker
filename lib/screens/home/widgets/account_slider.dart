@@ -39,14 +39,8 @@ class _AccountSlider extends State<AccountsSlider> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppRadius.lg),
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        account.color.withOpacity(0.6),
-                        account.color.withOpacity(0.9),
-                      ],
-                    ),
+                    color: theme.colorScheme.surface,
+                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
                   ),
                   margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                   child: Padding(
@@ -54,16 +48,29 @@ class _AccountSlider extends State<AccountsSlider> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceVariant,
+                            borderRadius: BorderRadius.circular(999),
+                            border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                          ),
+                          child: Text(
+                            account.name,
+                            style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
                         CurrencyText(
                           account.balance ?? 0,
                           style: theme.textTheme.headlineMedium?.copyWith(
-                            color: Colors.white,
+                            color: theme.colorScheme.onSurface,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         Text(
-                          'Balance',
-                          style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white.withOpacity(0.9)),
+                          'Số dư hiện tại',
+                          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                         ),
                         const Spacer(),
                         Row(
@@ -75,18 +82,27 @@ class _AccountSlider extends State<AccountsSlider> {
                                 Text(
                                   account.holderName,
                                   style: theme.textTheme.bodyLarge?.copyWith(
-                                    color: Colors.white,
+                                    color: theme.colorScheme.onSurface,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 Text(
                                   account.name,
-                                  style: theme.textTheme.bodySmall?.copyWith(color: Colors.white.withOpacity(0.7)),
+                                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                                 ),
                               ],
                             ),
                             const Spacer(),
-                            Icon(account.icon, color: Colors.white),
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.surfaceVariant,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                              ),
+                              child: Icon(account.icon, color: account.color, size: 18),
+                            ),
                           ],
                         ),
                       ],

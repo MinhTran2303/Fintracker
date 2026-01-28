@@ -49,7 +49,16 @@ class _CurrencyPicWidget extends State<CurrencyPicWidget> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.currency_exchange, size: 48, color: theme.colorScheme.primary),
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              shape: BoxShape.circle,
+              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+            ),
+            child: Icon(Icons.currency_exchange, size: 24, color: theme.colorScheme.primary),
+          ),
           const SizedBox(height: AppSpacing.md),
           Text(
             'Chọn loại tiền tệ',
@@ -61,14 +70,22 @@ class _CurrencyPicWidget extends State<CurrencyPicWidget> {
             style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: AppSpacing.lg),
-          AppTextField(
-            hintText: 'Tìm kiếm',
-            prefix: const Icon(Icons.search),
-            onChanged: (text) {
-              setState(() {
-                _keyword = text;
-              });
-            },
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+            ),
+            child: AppTextField(
+              hintText: 'Tìm kiếm',
+              prefix: const Icon(Icons.search),
+              onChanged: (text) {
+                setState(() {
+                  _keyword = text;
+                });
+              },
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           Expanded(
@@ -92,8 +109,13 @@ class _CurrencyPicWidget extends State<CurrencyPicWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CircleAvatar(
-                            backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.surfaceVariant,
+                              borderRadius: BorderRadius.circular(999),
+                              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                            ),
                             child: Text(currency.symbol),
                           ),
                           const SizedBox(height: AppSpacing.sm),

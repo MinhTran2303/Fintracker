@@ -51,9 +51,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final totalBudget = _categories.fold<num>(0, (sum, category) => sum + (category.budget ?? 0));
+    final totalExpense = _categories.fold<num>(0, (sum, category) => sum + (category.expense ?? 0));
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Ngân sách', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
+        title: Text('Ngân sách', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
       floatingActionButton: AppFAB(
@@ -75,6 +77,40 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Tổng ngân sách', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        CurrencyHelper.format(totalBudget.toDouble()),
+                        style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _BudgetStat(
+                              label: 'Đã chi',
+                              value: CurrencyHelper.format(totalExpense.toDouble()),
+                              color: theme.colorScheme.tertiary,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          Expanded(
+                            child: _BudgetStat(
+                              label: 'Còn lại',
+                              value: CurrencyHelper.format((totalBudget - totalExpense).toDouble()),
+                              color: theme.colorScheme.secondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
                 SectionHeader(
                   title: 'Danh mục chi tiêu',
                   subtitle: '${_categories.length} danh mục',
@@ -99,8 +135,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   Container(
                                     padding: const EdgeInsets.all(AppSpacing.sm),
                                     decoration: BoxDecoration(
-                                      color: category.color.withOpacity(0.12),
+                                      color: theme.colorScheme.surfaceVariant,
                                       borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                                     ),
                                     child: Icon(
                                       category.icon,
@@ -112,7 +149,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   Expanded(
                                     child: Text(
                                       category.name,
-                                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                   IconButton(
@@ -166,7 +203,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   child: LinearProgressIndicator(
                                     minHeight: 8,
                                     value: expenseProgress.clamp(0.0, 1.0),
-                                    backgroundColor: theme.colorScheme.surfaceVariant,
+                                    backgroundColor: theme.colorScheme.surfaceVariant.withOpacity(0.7),
                                     valueColor: AlwaysStoppedAnimation<Color>(
                                       overBudget ? theme.colorScheme.error : theme.colorScheme.secondary,
                                     ),
@@ -178,6 +215,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   decoration: BoxDecoration(
                                     color: theme.colorScheme.surfaceVariant,
                                     borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                                   ),
                                   child: Text(
                                     'Chưa đặt ngân sách',
@@ -194,6 +232,56 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
               ],
             ),
+    );
+  }
+}
+
+class _BudgetStat extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color color;
+
+  const _BudgetStat({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceVariant,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  value,
+                  style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -20,8 +20,17 @@ class ProfileWidget extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.account_balance_wallet, size: 64, color: theme.colorScheme.primary),
-          const SizedBox(height: AppSpacing.lg),
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              shape: BoxShape.circle,
+              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+            ),
+            child: Icon(Icons.account_balance_wallet, size: 32, color: theme.colorScheme.primary),
+          ),
+          const SizedBox(height: AppSpacing.xl),
           Text(
             'Chào mừng đến Fintracker',
             style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
@@ -32,11 +41,19 @@ class ProfileWidget extends StatelessWidget {
             style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: AppSpacing.lg),
-          AppTextField(
-            controller: controller,
-            label: 'Tên',
-            hintText: 'Nhập tên của bạn',
-            prefix: const Icon(Icons.account_circle),
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+            ),
+            child: AppTextField(
+              controller: controller,
+              label: 'Tên',
+              hintText: 'Nhập tên của bạn',
+              prefix: const Icon(Icons.account_circle),
+            ),
           ),
           const Spacer(),
           AppButton(

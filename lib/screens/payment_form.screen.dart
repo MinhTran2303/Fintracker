@@ -172,7 +172,7 @@ class _PaymentForm extends State<PaymentForm> {
       appBar: AppBar(
         title: Text(
           widget.payment == null ? 'Giao dịch mới' : 'Chỉnh sửa giao dịch',
-          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -184,193 +184,229 @@ class _PaymentForm extends State<PaymentForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Loại giao dịch', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: AppSpacing.sm),
-                  Wrap(
-                    spacing: AppSpacing.sm,
-                    children: [
-                      ChoiceChip(
-                        label: const Text('Thu nhập'),
-                        selected: _type == PaymentType.credit,
-                        onSelected: (selected) {
-                          if (selected) {
-                            setState(() {
-                              _type = PaymentType.credit;
-                            });
-                          }
-                        },
-                      ),
-                      ChoiceChip(
-                        label: const Text('Chi phí'),
-                        selected: _type == PaymentType.debit,
-                        onSelected: (selected) {
-                          if (selected) {
-                            setState(() {
-                              _type = PaymentType.debit;
-                            });
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  AppTextField(
-                    label: 'Tiêu đề',
-                    hintText: 'Nhập tiêu đề',
-                    initialValue: _title,
-                    onChanged: (text) => setState(() => _title = text),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  AppTextField(
-                    label: 'Mô tả',
-                    hintText: 'Ghi chú thêm',
-                    initialValue: _description,
-                    maxLines: 3,
-                    onChanged: (text) => setState(() => _description = text),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  AppTextField(
-                    label: 'Số tiền',
-                    hintText: '0',
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
-                    ],
-                    prefix: CurrencyText(null),
-                    initialValue: _amount == 0 ? '' : _amount.toString(),
-                    onChanged: (String text) {
-                      setState(() {
-                        _amount = double.parse(text == '' ? '0' : text);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Text('Ngày và giờ', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: AppSpacing.sm),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppTextField(
-                          label: 'Ngày',
-                          readOnly: true,
-                          onTap: () => chooseDate(context),
-                          initialValue: DateFormat('dd/MM/yyyy').format(_datetime),
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: AppTextField(
-                          label: 'Giờ',
-                          readOnly: true,
-                          onTap: () => chooseTime(context),
-                          initialValue: DateFormat('HH:mm').format(_datetime),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Text('Chọn tài khoản', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: AppSpacing.sm),
-                  SizedBox(
-                    height: 92,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: List.generate(_accounts.length + 1, (index) {
-                        if (index == 0) {
-                          return SizedBox(
-                            width: 140,
-                            child: AppCard(
-                              onTap: () {
-                                showDialog(context: context, builder: (builder) => const AccountForm());
+                  AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Loại giao dịch', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        const SizedBox(height: AppSpacing.sm),
+                        Wrap(
+                          spacing: AppSpacing.sm,
+                          children: [
+                            ChoiceChip(
+                              label: const Text('Thu nhập'),
+                              selected: _type == PaymentType.credit,
+                              onSelected: (selected) {
+                                if (selected) {
+                                  setState(() {
+                                    _type = PaymentType.credit;
+                                  });
+                                }
                               },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add, color: theme.colorScheme.primary),
-                                  const SizedBox(height: AppSpacing.sm),
-                                  Text('Tạo mới', style: theme.textTheme.bodySmall),
-                                ],
-                              ),
+                              selectedColor: theme.colorScheme.primaryContainer,
                             ),
-                          );
-                        }
-                        Account account = _accounts[index - 1];
-                        final isSelected = _account?.id == account.id;
-                        return Container(
-                          width: 140,
-                          margin: const EdgeInsets.only(left: AppSpacing.sm),
-                          child: AppCard(
-                            onTap: () {
-                              setState(() {
-                                _account = account;
-                              });
-                            },
-                            color: isSelected ? theme.colorScheme.primaryContainer : theme.colorScheme.surface,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(account.icon, color: account.color, size: 20),
-                                const SizedBox(height: AppSpacing.sm),
-                                Text(
-                                  account.name,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: isSelected
-                                        ? theme.colorScheme.onPrimaryContainer
-                                        : theme.colorScheme.onSurface,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                            ChoiceChip(
+                              label: const Text('Chi phí'),
+                              selected: _type == PaymentType.debit,
+                              onSelected: (selected) {
+                                if (selected) {
+                                  setState(() {
+                                    _type = PaymentType.debit;
+                                  });
+                                }
+                              },
+                              selectedColor: theme.colorScheme.primaryContainer,
                             ),
-                          ),
-                        );
-                      }),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  Text('Chọn danh mục', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: AppSpacing.sm),
-                  Wrap(
-                    spacing: AppSpacing.sm,
-                    runSpacing: AppSpacing.sm,
-                    children: List.generate(_categories.length + 1, (index) {
-                      if (_categories.length == index) {
-                        return AppButton(
-                          label: 'Tạo mới',
-                          icon: Icons.add,
-                          variant: AppButtonVariant.secondary,
-                          onPressed: () {
-                            showDialog(context: context, builder: (builder) => const CategoryForm());
+                  AppCard(
+                    child: Column(
+                      children: [
+                        AppTextField(
+                          label: 'Tiêu đề',
+                          hintText: 'Nhập tiêu đề',
+                          initialValue: _title,
+                          onChanged: (text) => setState(() => _title = text),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        AppTextField(
+                          label: 'Mô tả',
+                          hintText: 'Ghi chú thêm',
+                          initialValue: _description,
+                          maxLines: 3,
+                          onChanged: (text) => setState(() => _description = text),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        AppTextField(
+                          label: 'Số tiền',
+                          hintText: '0',
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
+                          ],
+                          prefix: CurrencyText(null),
+                          initialValue: _amount == 0 ? '' : _amount.toString(),
+                          onChanged: (String text) {
+                            setState(() {
+                              _amount = double.parse(text == '' ? '0' : text);
+                            });
                           },
-                        );
-                      }
-                      Category category = _categories[index];
-                      final isSelected = _category?.id == category.id;
-                      return ChoiceChip(
-                        label: Row(
-                          mainAxisSize: MainAxisSize.min,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Ngày và giờ', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        const SizedBox(height: AppSpacing.sm),
+                        Row(
                           children: [
-                            Icon(category.icon, color: category.color, size: 18),
-                            const SizedBox(width: AppSpacing.xs),
-                            Text(category.name),
+                            Expanded(
+                              child: AppTextField(
+                                label: 'Ngày',
+                                readOnly: true,
+                                onTap: () => chooseDate(context),
+                                initialValue: DateFormat('dd/MM/yyyy').format(_datetime),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: AppTextField(
+                                label: 'Giờ',
+                                readOnly: true,
+                                onTap: () => chooseTime(context),
+                                initialValue: DateFormat('HH:mm').format(_datetime),
+                              ),
+                            ),
                           ],
                         ),
-                        selected: isSelected,
-                        onSelected: (_) {
-                          setState(() {
-                            _category = category;
-                          });
-                        },
-                        selectedColor: theme.colorScheme.primaryContainer,
-                        backgroundColor: theme.colorScheme.surfaceVariant,
-                        labelStyle: theme.textTheme.bodySmall?.copyWith(
-                          color: isSelected
-                              ? theme.colorScheme.onPrimaryContainer
-                              : theme.colorScheme.onSurface,
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Chọn tài khoản', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        const SizedBox(height: AppSpacing.sm),
+                        SizedBox(
+                          height: 96,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: List.generate(_accounts.length + 1, (index) {
+                              if (index == 0) {
+                                return SizedBox(
+                                  width: 140,
+                                  child: AppCard(
+                                    onTap: () {
+                                      showDialog(context: context, builder: (builder) => const AccountForm());
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.add, color: theme.colorScheme.primary),
+                                        const SizedBox(height: AppSpacing.sm),
+                                        Text('Tạo mới', style: theme.textTheme.bodySmall),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              Account account = _accounts[index - 1];
+                              final isSelected = _account?.id == account.id;
+                              return Container(
+                                width: 140,
+                                margin: const EdgeInsets.only(left: AppSpacing.sm),
+                                child: AppCard(
+                                  onTap: () {
+                                    setState(() {
+                                      _account = account;
+                                    });
+                                  },
+                                  color: isSelected ? theme.colorScheme.primaryContainer : theme.colorScheme.surface,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(account.icon, color: account.color, size: 20),
+                                      const SizedBox(height: AppSpacing.sm),
+                                      Text(
+                                        account.name,
+                                        style: theme.textTheme.bodySmall?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: isSelected
+                                              ? theme.colorScheme.onPrimaryContainer
+                                              : theme.colorScheme.onSurface,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                          ),
                         ),
-                      );
-                    }),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Chọn danh mục', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        const SizedBox(height: AppSpacing.sm),
+                        Wrap(
+                          spacing: AppSpacing.sm,
+                          runSpacing: AppSpacing.sm,
+                          children: List.generate(_categories.length + 1, (index) {
+                            if (_categories.length == index) {
+                              return AppButton(
+                                label: 'Tạo mới',
+                                icon: Icons.add,
+                                variant: AppButtonVariant.secondary,
+                                onPressed: () {
+                                  showDialog(context: context, builder: (builder) => const CategoryForm());
+                                },
+                              );
+                            }
+                            Category category = _categories[index];
+                            final isSelected = _category?.id == category.id;
+                            return ChoiceChip(
+                              label: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(category.icon, color: category.color, size: 18),
+                                  const SizedBox(width: AppSpacing.xs),
+                                  Text(category.name),
+                                ],
+                              ),
+                              selected: isSelected,
+                              onSelected: (_) {
+                                setState(() {
+                                  _category = category;
+                                });
+                              },
+                              selectedColor: theme.colorScheme.primaryContainer,
+                              backgroundColor: theme.colorScheme.surfaceVariant,
+                              labelStyle: theme.textTheme.bodySmall?.copyWith(
+                                color: isSelected
+                                    ? theme.colorScheme.onPrimaryContainer
+                                    : theme.colorScheme.onSurface,
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

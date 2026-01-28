@@ -147,111 +147,80 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppCard(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(greeting(), style: theme.textTheme.titleSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                        const SizedBox(height: AppSpacing.xs),
-                        Text('Xin chào, $username', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
-                        const SizedBox(height: AppSpacing.sm),
-                        Text(
-                          DateFormat('EEEE, d MMMM').format(DateTime.now()),
-                          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                        ),
-                      ],
-                    ),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(greeting(), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text('Xin chào, $username', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700)),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        DateFormat('EEEE, d MMMM').format(DateTime.now()),
+                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                    ],
                   ),
-                  Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primaryContainer,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.person, color: theme.colorScheme.onPrimaryContainer),
+                ),
+                Container(
+                  width: 46,
+                  height: 46,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            SectionHeader(
-              title: 'Tổng quan tháng này',
-              subtitle: '${_accounts.length} ví đang hoạt động',
-              action: TextButton(
-                onPressed: handleChooseDateRange,
-                child: const Text('Chọn kỳ'),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final isWide = constraints.maxWidth > 520;
-                return GridView.count(
-                  crossAxisCount: isWide ? 3 : 2,
-                  crossAxisSpacing: AppSpacing.md,
-                  mainAxisSpacing: AppSpacing.md,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  childAspectRatio: isWide ? 1.6 : 1.2,
-                  children: [
-                    StatCard(
-                      title: 'Số dư',
-                      value: moneyFormat.format(netBalance),
-                      icon: Icons.account_balance_wallet,
-                      accentColor: theme.colorScheme.primary,
-                      caption: netBalance >= 0 ? 'Bạn đang tiết kiệm tốt' : 'Cần tối ưu chi tiêu',
-                    ),
-                    StatCard(
-                      title: 'Thu nhập',
-                      value: moneyFormat.format(monthlyIncome),
-                      icon: Icons.arrow_downward,
-                      accentColor: theme.colorScheme.secondary,
-                      caption: 'Tổng thu trong kỳ',
-                    ),
-                    StatCard(
-                      title: 'Chi tiêu',
-                      value: moneyFormat.format(monthlyExpense),
-                      icon: Icons.arrow_upward,
-                      accentColor: theme.colorScheme.tertiary,
-                      caption: 'Tổng chi trong kỳ',
-                    ),
-                  ],
-                );
-              },
+                  child: Icon(Icons.person, color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ],
             ),
             const SizedBox(height: AppSpacing.lg),
             AppCard(
-              child: Row(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(AppSpacing.sm),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(Icons.calendar_today, color: theme.colorScheme.primary, size: 18),
+                  Row(
+                    children: [
+                      Text('Tổng quan', style: theme.textTheme.titleSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: handleChooseDateRange,
+                        child: const Text('Chọn kỳ'),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Tổng quan tháng này', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          '${moneyFormat.format(monthlyIncome)} thu · ${moneyFormat.format(monthlyExpense)} chi',
-                          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    moneyFormat.format(netBalance),
+                    style: theme.textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    netBalance >= 0 ? 'Số dư ròng tháng này' : 'Số dư ròng đang âm',
+                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _SummaryPill(
+                          label: 'Thu nhập',
+                          value: moneyFormat.format(monthlyIncome),
+                          color: theme.colorScheme.secondary,
                         ),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: handleChooseDateRange,
-                    child: const Text('Chi tiết'),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: _SummaryPill(
+                          label: 'Chi tiêu',
+                          value: moneyFormat.format(monthlyExpense),
+                          color: theme.colorScheme.tertiary,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -268,8 +237,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: const EdgeInsets.all(AppSpacing.sm),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.tertiary.withOpacity(0.12),
+                      color: theme.colorScheme.surfaceVariant,
                       borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                     ),
                     child: Icon(Icons.trending_up, color: theme.colorScheme.tertiary, size: 18),
                   ),
@@ -322,6 +292,61 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SummaryPill extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color color;
+
+  const _SummaryPill({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceVariant,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+                Text(
+                  value,
+                  style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

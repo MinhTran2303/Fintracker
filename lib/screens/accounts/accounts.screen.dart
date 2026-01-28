@@ -65,7 +65,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Ví tiền', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
+        title: Text('Ví tiền', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
       floatingActionButton: AppFAB(
@@ -101,18 +101,19 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         children: [
                           Text(
                             'Tổng tài sản',
-                            style: theme.textTheme.titleSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                           ),
                           const Spacer(),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withOpacity(0.12),
+                              color: theme.colorScheme.surfaceVariant,
                               borderRadius: BorderRadius.circular(999),
+                              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                             ),
                             child: Text(
                               '${_accounts.length} ví',
-                              style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary),
+                              style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                             ),
                           ),
                         ],
@@ -120,7 +121,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       const SizedBox(height: AppSpacing.md),
                       Text(
                         CurrencyHelper.format(totalBalance.toDouble()),
-                        style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                        style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(height: AppSpacing.md),
                       Row(
@@ -250,11 +251,12 @@ class _AccountCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 44,
+                height: 44,
                 decoration: BoxDecoration(
-                  color: account.color.withOpacity(0.18),
-                  borderRadius: BorderRadius.circular(16),
+                  color: theme.colorScheme.surfaceVariant,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                 ),
                 child: Icon(account.icon, color: account.color, size: 20),
               ),
@@ -267,7 +269,7 @@ class _AccountCard extends StatelessWidget {
                       name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
@@ -305,7 +307,7 @@ class _AccountCard extends StatelessWidget {
                   icon: Icons.arrow_downward,
                   label: 'Thu vào',
                   amount: incomeValue,
-                  background: theme.colorScheme.secondary.withOpacity(0.12),
+                  background: theme.colorScheme.surfaceVariant,
                   iconColor: theme.colorScheme.secondary,
                 ),
               ),
@@ -316,7 +318,7 @@ class _AccountCard extends StatelessWidget {
                   icon: Icons.arrow_upward,
                   label: 'Chi ra',
                   amount: expenseValue,
-                  background: theme.colorScheme.tertiary.withOpacity(0.12),
+                  background: theme.colorScheme.surfaceVariant,
                   iconColor: theme.colorScheme.tertiary,
                 ),
               ),
@@ -326,8 +328,9 @@ class _AccountCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant.withOpacity(0.6),
+              color: theme.colorScheme.surfaceVariant,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
             ),
             child: Row(
               children: [
@@ -367,6 +370,7 @@ class _AccountCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,8 +414,9 @@ class _SummaryTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: theme.colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
       ),
       child: Row(
         children: [
@@ -419,7 +424,7 @@ class _SummaryTile extends StatelessWidget {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withOpacity(0.14),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 16, color: color),
