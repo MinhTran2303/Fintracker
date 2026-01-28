@@ -16,48 +16,133 @@ class ProfileWidget extends StatelessWidget {
     AppCubit cubit = context.read<AppCubit>();
     TextEditingController controller = TextEditingController(text: cubit.state.username);
     return AppScaffold(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl, horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg, horizontal: AppSpacing.lg),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 64,
-            height: 64,
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              shape: BoxShape.circle,
-              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+              color: theme.colorScheme.primary.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(999),
             ),
-            child: Icon(Icons.account_balance_wallet, size: 32, color: theme.colorScheme.primary),
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          Text(
-            'Chào mừng đến Fintracker',
-            style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            'Chúng tôi nên gọi bạn là gì?',
-            style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            child: Text(
+              'Bước 1 / 2',
+              style: theme.textTheme.labelLarge?.copyWith(
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  theme.colorScheme.primary.withOpacity(0.15),
+                  theme.colorScheme.secondary.withOpacity(0.12),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(color: theme.colorScheme.primary.withOpacity(0.2)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Thiết lập hồ sơ',
+                  style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  'Tạo dấu ấn cá nhân để Fintracker gợi ý và theo dõi dễ hơn.',
+                  style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 96,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(color: theme.colorScheme.outline.withOpacity(0.4)),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.auto_graph_rounded,
+                            size: 36,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: Container(
+                        height: 96,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(color: theme.colorScheme.outline.withOpacity(0.4)),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.savings_outlined,
+                            size: 36,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Tên hiển thị',
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          AppTextField(
+            controller: controller,
+            label: 'Tên',
+            hintText: 'Nhập tên của bạn',
+            prefix: const Icon(Icons.account_circle),
+          ),
+          const Spacer(),
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
+              border: Border.all(color: theme.colorScheme.outline.withOpacity(0.4)),
             ),
-            child: AppTextField(
-              controller: controller,
-              label: 'Tên',
-              hintText: 'Nhập tên của bạn',
-              prefix: const Icon(Icons.account_circle),
+            child: Row(
+              children: [
+                Icon(Icons.lock_outline, size: 20, color: theme.colorScheme.primary),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    'Bạn có thể chỉnh sửa tên sau trong phần cài đặt.',
+                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                ),
+              ],
             ),
           ),
-          const Spacer(),
+          const SizedBox(height: AppSpacing.lg),
           AppButton(
-            label: 'Tiếp tục',
+            label: 'Hoàn tất bước này',
             icon: Icons.arrow_forward,
             size: AppButtonSize.large,
             isFullWidth: true,
