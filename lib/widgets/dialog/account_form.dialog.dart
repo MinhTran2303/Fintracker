@@ -64,10 +64,12 @@ class _AccountForm extends State<AccountForm> {
     final theme = Theme.of(context);
 
     return AlertDialog(
+      scrollable: true,
       backgroundColor: theme.colorScheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       insetPadding: const EdgeInsets.all(20),
-      content: SingleChildScrollView(
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
