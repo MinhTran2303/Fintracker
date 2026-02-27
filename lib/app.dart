@@ -23,9 +23,15 @@ class App extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.dark,
           home: const MainScreen(),
+          locale: Locale(state.languageCode),
+          supportedLocales: const [
+            Locale('vi'),
+            Locale('en'),
+          ],
           localizationsDelegates: const [
             GlobalWidgetsLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
           ],
         );
       },

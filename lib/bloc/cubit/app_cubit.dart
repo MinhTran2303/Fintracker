@@ -6,17 +6,20 @@ class AppState{
   late String? username;
   late int themeColor;
   late String? currency;
+  late String languageCode;
 
   static Future<AppState> getState() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int? themeColor = prefs.getInt("themeColor");
     String? username = prefs.getString("username");
     String? currency = prefs.getString("currency");
+    String? languageCode = prefs.getString("languageCode");
 
     AppState appState = AppState();
     appState.themeColor = themeColor ?? Colors.green.value;
     appState.username = username;
     appState.currency = currency;
+    appState.languageCode = languageCode ?? 'vi';
 
     return appState;
   }
@@ -41,11 +44,18 @@ class AppCubit extends Cubit<AppState>{
     emit(await AppState.getState());
   }
 
+  Future<void> updateLanguageCode(String languageCode) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("languageCode", languageCode);
+    emit(await AppState.getState());
+  }
+
   Future<void> reset() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove("currency");
     await prefs.remove("themeColor");
     await prefs.remove("username");
+    await prefs.remove("languageCode");
     emit(await AppState.getState());
   }
 

@@ -21,19 +21,24 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+
+  bool get _isEnglish => context.watch<AppCubit>().state.languageCode == 'en';
+
+  String _t(String vi, String en) => _isEnglish ? en : vi;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Cài đặt', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
+        title: Text(_t('Cài đặt', 'Settings'), style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
       body: ListView(
         children: [
-          const SectionHeader(
-            title: 'Hồ sơ',
-            subtitle: 'Cá nhân hóa trải nghiệm của bạn',
+          SectionHeader(
+            title: _t('Hồ sơ', 'Profile'),
+            subtitle: _t('Cá nhân hóa trải nghiệm của bạn', 'Personalize your experience'),
           ),
           const SizedBox(height: AppSpacing.md),
           AppCard(
@@ -98,9 +103,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          const SectionHeader(
-            title: 'Tiền tệ',
-            subtitle: 'Thiết lập đơn vị hiển thị',
+          SectionHeader(
+            title: _t('Ngôn ngữ', 'Language'),
+            subtitle: _t('Chọn ngôn ngữ hiển thị', 'Choose display language'),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          AppCard(
+            child: ListTile(
+              leading: _SettingsIcon(icon: Icons.language, color: theme.colorScheme.primary),
+              title: Text(_t('Ngôn ngữ', 'Language'), style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+              subtitle: BlocBuilder<AppCubit, AppState>(
+                builder: (context, state) {
+                  return Text(
+                    state.languageCode == 'en' ? 'English' : 'Tiếng Việt',
+                    style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  );
+                },
+              ),
+              trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    final selected = context.watch<AppCubit>().state.languageCode;
+                    return SafeArea(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          RadioListTile<String>(
+                            value: 'vi',
+                            groupValue: selected,
+                            title: const Text('Tiếng Việt'),
+                            onChanged: (value) {
+                              if (value != null) {
+                                context.read<AppCubit>().updateLanguageCode(value);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          ),
+                          RadioListTile<String>(
+                            value: 'en',
+                            groupValue: selected,
+                            title: const Text('English'),
+                            onChanged: (value) {
+                              if (value != null) {
+                                context.read<AppCubit>().updateLanguageCode(value);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          SectionHeader(
+            title: _t('Tiền tệ', 'Currency'),
+            subtitle: _t('Thiết lập đơn vị hiển thị', 'Set display unit'),
           ),
           const SizedBox(height: AppSpacing.md),
           AppCard(
