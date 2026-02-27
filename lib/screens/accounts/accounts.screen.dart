@@ -379,7 +379,7 @@ class _AccountCard extends StatelessWidget {
                     if (onDelete != null) onDelete!();
                   }
                 },
-                itemBuilder: (_) => const [
+                itemBuilder: (_) => [
                   PopupMenuItem(value: 1, child: Text(tr(context, 'Chỉnh sửa', 'Edit'))),
                   PopupMenuItem(value: 2, child: Text(tr(context, 'Xóa', 'Delete'))),
                 ],
