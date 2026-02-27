@@ -1,6 +1,7 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
 import 'package:SpendingMonitor/helpers/db.helper.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:SpendingMonitor/widgets/app/app_card.dart';
 import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
@@ -61,12 +62,12 @@ class _CurrencyPicWidget extends State<CurrencyPicWidget> {
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
-            'Chọn loại tiền tệ',
+            tr(context, 'Chọn loại tiền tệ', 'Choose currency'),
             style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            'Thiết lập đơn vị hiển thị mặc định.',
+            tr(context, 'Thiết lập đơn vị hiển thị mặc định.', 'Set the default display unit.'),
             style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -78,7 +79,7 @@ class _CurrencyPicWidget extends State<CurrencyPicWidget> {
               border: Border.all(color: theme.colorScheme.outline.withOpacity(0.6)),
             ),
             child: AppTextField(
-              hintText: 'Tìm kiếm',
+              hintText: tr(context, 'Tìm kiếm', 'Search'),
               prefix: const Icon(Icons.search),
               onChanged: (text) {
                 setState(() {
@@ -139,13 +140,13 @@ class _CurrencyPicWidget extends State<CurrencyPicWidget> {
           ),
           const SizedBox(height: AppSpacing.md),
           AppButton(
-            label: 'Hoàn tất',
+            label: tr(context, 'Hoàn tất', 'Finish'),
             icon: Icons.arrow_forward,
             size: AppButtonSize.large,
             isFullWidth: true,
             onPressed: () {
               if (_currency == null) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Vui lòng chọn tiền tệ')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr(context, 'Vui lòng chọn tiền tệ', 'Please select a currency'))));
               } else {
                 cubit.updateCurrency(_currency);
                 resetDatabase();

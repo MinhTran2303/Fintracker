@@ -1,4 +1,5 @@
 import 'package:events_emitter/events_emitter.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/dao/account_dao.dart';
 import 'package:SpendingMonitor/events.dart';
 import 'package:SpendingMonitor/model/account.model.dart';
@@ -65,7 +66,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Tổng quan ví', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
+        title: Text(tr(context, 'Tổng quan ví', 'Wallet overview'), style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
       ),
       padding: EdgeInsets.zero,
       floatingActionButton: AppFAB(
@@ -129,7 +130,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                 borderRadius: BorderRadius.circular(999),
                               ),
                               child: Text(
-                                '${_accounts.length} ví đang hoạt động',
+                                tr(context, '${_accounts.length} ví đang hoạt động', '${_accounts.length} active wallets'),
                                 style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onPrimary),
                               ),
                             ),
@@ -137,7 +138,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         ),
                         const SizedBox(height: AppSpacing.lg),
                         Text(
-                          'Tổng tài sản',
+                          tr(context, 'Tổng tài sản', 'Total assets'),
                           style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onPrimary.withOpacity(0.8)),
                         ),
                         const SizedBox(height: AppSpacing.xs),
@@ -154,14 +155,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
                           runSpacing: AppSpacing.sm,
                           children: [
                             _SummaryPill(
-                              label: 'Thu vào',
+                              label: tr(context, 'Thu vào', 'Income'),
                               value: CurrencyHelper.format(totalIncome.toDouble()),
                               icon: Icons.south_east,
                               background: theme.colorScheme.onPrimary.withOpacity(0.18),
                               foreground: theme.colorScheme.onPrimary,
                             ),
                             _SummaryPill(
-                              label: 'Chi ra',
+                              label: tr(context, 'Chi ra', 'Expense'),
                               value: CurrencyHelper.format(totalExpense.toDouble()),
                               icon: Icons.north_east,
                               background: theme.colorScheme.onPrimary.withOpacity(0.18),
@@ -180,7 +181,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
-                            'Theo dõi chi tiêu theo ví để nhận báo cáo chính xác hơn.',
+                            tr(context, 'Theo dõi chi tiêu theo ví để nhận báo cáo chính xác hơn.', 'Track spending by wallet for more accurate reports.'),
                             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                           ),
                         ),
@@ -189,10 +190,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   SectionHeader(
-                    title: 'Danh sách ví',
+                    title: tr(context, 'Danh sách ví', 'Wallet list'),
                     subtitle: _accounts.isEmpty
-                        ? 'Chưa có tài khoản nào'
-                        : '${_accounts.length} tài khoản đang hoạt động',
+                        ? tr(context, 'Chưa có tài khoản nào', 'No accounts yet')
+                        : tr(context, '${_accounts.length} tài khoản đang hoạt động', '${_accounts.length} active accounts'),
                   ),
                   const SizedBox(height: AppSpacing.md),
                 ],
@@ -205,9 +206,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: EmptyStateWidget(
-                  title: 'Chưa có tài khoản',
-                  description: 'Tạo ví đầu tiên để bắt đầu theo dõi tài chính.',
-                  ctaLabel: 'Tạo ví mới',
+                  title: tr(context, 'Chưa có tài khoản', 'No accounts yet'),
+                  description: tr(context, 'Tạo ví đầu tiên để bắt đầu theo dõi tài chính.', 'Create your first wallet to start tracking your finances.'),
+                  ctaLabel: tr(context, 'Tạo ví mới', 'Create new wallet'),
                   onCta: () {
                     showDialog(
                       context: context,
@@ -225,7 +226,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 itemBuilder: (context, index) {
                   final account = _accounts[index];
 
-                  final name = account.name.isNotEmpty ? account.name : 'Không tên';
+                  final name = account.name.isNotEmpty ? account.name : tr(context, 'Không tên', 'Untitled');
                   final balance = account.balance ?? 0;
                   final income = account.income ?? 0;
                   final expense = account.expense ?? 0;
@@ -256,8 +257,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         if (account.id == null) return;
                         ConfirmModal.showConfirmDialog(
                           context,
-                          title: 'Xóa tài khoản?',
-                          content: const Text('Mọi giao dịch liên quan sẽ bị xóa'),
+                          title: tr(context, 'Xóa tài khoản?', 'Delete account?'),
+                          content: Text(tr(context, 'Mọi giao dịch liên quan sẽ bị xóa', 'All related transactions will be deleted')),
                           onConfirm: () async {
                             Navigator.pop(context);
                             await _accountDao.delete(account.id!);
@@ -308,8 +309,8 @@ class _AccountCard extends StatelessWidget {
     final expenseValue = CurrencyHelper.format(expense.toDouble());
     final balanceTone = balance >= 0 ? theme.colorScheme.primary : theme.colorScheme.error;
     final accountNumber =
-        account.accountNumber.isNotEmpty ? maskAccount(account.accountNumber) : 'Chưa có số tài khoản';
-    final holderName = account.holderName.isNotEmpty ? account.holderName : 'Chủ ví chưa cập nhật';
+        account.accountNumber.isNotEmpty ? maskAccount(account.accountNumber) : tr(context, 'Chưa có số tài khoản', 'No account number');
+    final holderName = account.holderName.isNotEmpty ? account.holderName : tr(context, 'Chủ ví chưa cập nhật', 'Owner not set');
 
     return AppCard(
       onTap: onTap,
@@ -351,7 +352,7 @@ class _AccountCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(999),
                             ),
                             child: Text(
-                              'Mặc định',
+                              tr(context, 'Mặc định', 'Default'),
                               style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary),
                             ),
                           ),
@@ -379,8 +380,8 @@ class _AccountCard extends StatelessWidget {
                   }
                 },
                 itemBuilder: (_) => const [
-                  PopupMenuItem(value: 1, child: Text('Chỉnh sửa')),
-                  PopupMenuItem(value: 2, child: Text('Xóa')),
+                  PopupMenuItem(value: 1, child: Text(tr(context, 'Chỉnh sửa', 'Edit'))),
+                  PopupMenuItem(value: 2, child: Text(tr(context, 'Xóa', 'Delete'))),
                 ],
               ),
             ],
@@ -389,7 +390,7 @@ class _AccountCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Số dư hiện tại',
+                tr(context, 'Số dư hiện tại', 'Current balance'),
                 style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
               ),
               const Spacer(),
@@ -408,7 +409,7 @@ class _AccountCard extends StatelessWidget {
                 child: _buildMetric(
                   context,
                   icon: Icons.arrow_downward,
-                  label: 'Thu vào',
+                  label: tr(context, 'Thu vào', 'Income'),
                   amount: incomeValue,
                   background: theme.colorScheme.surfaceVariant,
                   iconColor: theme.colorScheme.secondary,
@@ -419,7 +420,7 @@ class _AccountCard extends StatelessWidget {
                 child: _buildMetric(
                   context,
                   icon: Icons.arrow_upward,
-                  label: 'Chi ra',
+                  label: tr(context, 'Chi ra', 'Expense'),
                   amount: expenseValue,
                   background: theme.colorScheme.surfaceVariant,
                   iconColor: theme.colorScheme.tertiary,
@@ -444,7 +445,7 @@ class _AccountCard extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(
-                    income >= expense ? 'Ví này đang tăng trưởng tốt' : 'Chi tiêu tăng so với tháng trước',
+                    income >= expense ? tr(context, 'Ví này đang tăng trưởng tốt', 'This wallet is growing well') : tr(context, 'Chi tiêu tăng so với tháng trước', 'Spending increased from last month'),
                     style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

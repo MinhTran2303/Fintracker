@@ -1,4 +1,5 @@
 import 'package:SpendingMonitor/model/account.model.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/helpers/currency.helper.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:SpendingMonitor/widgets/app/app_card.dart';
@@ -57,9 +58,9 @@ class _WalletDetailScreenState extends State<WalletDetailScreen> {
       final today = DateTime(now.year, now.month, now.day);
       final yesterday = today.subtract(const Duration(days: 1));
       if (justDate == today) {
-        label = 'Hôm nay';
+        label = tr(context, 'Hôm nay', 'Today');
       } else if (justDate == yesterday) {
-        label = 'Hôm qua';
+        label = tr(context, 'Hôm qua', 'Yesterday');
       } else {
         label = DateFormat('dd MMM yyyy').format(d);
       }
@@ -106,7 +107,7 @@ class _WalletDetailScreenState extends State<WalletDetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Số dư', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                      Text(tr(context, 'Số dư', 'Balance'), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         CurrencyHelper.format(net),
@@ -134,7 +135,7 @@ class _WalletDetailScreenState extends State<WalletDetailScreen> {
                       Icon(Icons.arrow_downward, color: theme.colorScheme.secondary, size: 16),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
-                        child: Text('Thu nhập', style: theme.textTheme.bodySmall),
+                        child: Text(tr(context, 'Thu nhập', 'Income'), style: theme.textTheme.bodySmall),
                       ),
                       Text(
                         CurrencyHelper.format(_income),
@@ -153,7 +154,7 @@ class _WalletDetailScreenState extends State<WalletDetailScreen> {
                       Icon(Icons.arrow_upward, color: theme.colorScheme.tertiary, size: 16),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
-                        child: Text('Chi phí', style: theme.textTheme.bodySmall),
+                        child: Text(tr(context, 'Chi phí', 'Expense'), style: theme.textTheme.bodySmall),
                       ),
                       Text(
                         CurrencyHelper.format(_expense),
@@ -166,12 +167,12 @@ class _WalletDetailScreenState extends State<WalletDetailScreen> {
             ],
           ),
           const SizedBox(height: AppSpacing.lg),
-          SectionHeader(title: 'Giao dịch'),
+          SectionHeader(title: tr(context, 'Giao dịch', 'Transactions')),
           const SizedBox(height: AppSpacing.md),
           Expanded(
             child: _payments.isEmpty
                 ? Center(
-                    child: Text('Chưa có giao dịch', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                    child: Text(tr(context, 'Chưa có giao dịch', 'No transactions yet'), style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                   )
                 : ListView(
                     children: _grouped.entries.map((entry) {

@@ -44,11 +44,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           AppCard(
             child: ListTile(
               leading: _SettingsIcon(icon: Icons.person_outline, color: theme.colorScheme.primary),
-              title: Text('Tên', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+              title: Text(_t('Tên', 'Name'), style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
               subtitle: BlocBuilder<AppCubit, AppState>(
                 builder: (context, state) {
                   return Text(
-                    state.username ?? 'Chưa đặt',
+                    state.username ?? _t('Chưa đặt', 'Not set'),
                     style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   );
                 },
@@ -61,18 +61,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     TextEditingController controller =
                         TextEditingController(text: context.read<AppCubit>().state.username);
                     return AlertDialog(
-                      title: Text('Cập nhật tên', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
+                      title: Text(_t('Cập nhật tên', 'Update name'), style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
                       content: AppTextField(
                         controller: controller,
-                        label: 'Tên',
-                        hintText: 'Nhập tên của bạn',
+                        label: _t('Tên', 'Name'),
+                        hintText: _t('Nhập tên của bạn', 'Enter your name'),
                       ),
                       actions: [
                         Row(
                           children: [
                             Expanded(
                               child: AppButton(
-                                label: 'Hủy',
+                                label: _t('Hủy', 'Cancel'),
                                 variant: AppButtonVariant.secondary,
                                 onPressed: () => Navigator.of(context).pop(),
                               ),
@@ -80,11 +80,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             const SizedBox(width: AppSpacing.sm),
                             Expanded(
                               child: AppButton(
-                                label: 'Lưu',
+                                label: _t('Lưu', 'Save'),
                                 onPressed: () {
                                   if (controller.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Vui lòng nhập tên')),
+                                      SnackBar(content: Text(_t('Vui lòng nhập tên', 'Please enter your name'))),
                                     );
                                   } else {
                                     context.read<AppCubit>().updateUsername(controller.text);
@@ -133,7 +133,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           RadioListTile<String>(
                             value: 'vi',
                             groupValue: selected,
-                            title: const Text('Tiếng Việt'),
+                            title: Text(_t('Tiếng Việt', 'Vietnamese')),
                             onChanged: (value) {
                               if (value != null) {
                                 context.read<AppCubit>().updateLanguageCode(value);
@@ -169,7 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           AppCard(
             child: ListTile(
               leading: _SettingsIcon(icon: Icons.currency_exchange, color: theme.colorScheme.primary),
-              title: Text('Tiền tệ', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+              title: Text(_t('Tiền tệ', 'Currency'), style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
               subtitle: BlocBuilder<AppCubit, AppState>(
                 builder: (context, state) {
                   Currency? currency;
@@ -179,7 +179,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     currency = null;
                   }
                   return Text(
-                    currency?.name ?? 'Không xác định',
+                    currency?.name ?? _t('Không xác định', 'Unknown'),
                     style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   );
                 },
@@ -197,8 +197,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: AppSpacing.lg),
           SectionHeader(
-            title: 'Sao lưu & khôi phục',
-            subtitle: 'Xuất và nhập dữ liệu cục bộ',
+            title: _t('Sao lưu & khôi phục', 'Backup & restore'),
+            subtitle: _t('Xuất và nhập dữ liệu cục bộ', 'Export and import local data'),
           ),
           const SizedBox(height: AppSpacing.md),
           AppCard(
@@ -206,23 +206,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 ListTile(
                   leading: _SettingsIcon(icon: Icons.download, color: theme.colorScheme.primary),
-                  title: Text('Xuất dữ liệu', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
-                  subtitle: Text('Xuất ra tệp', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                  title: Text(_t('Xuất dữ liệu', 'Export data'), style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+                  subtitle: Text(_t('Xuất ra tệp', 'Export to file'), style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                   trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
                   onTap: () async {
                     ConfirmModal.showConfirmDialog(
                       context,
-                      title: 'Bạn có chắc chắn?',
-                      content: const Text('Muốn xuất tất cả dữ liệu ra tệp'),
+                      title: _t('Bạn có chắc chắn?', 'Are you sure?'),
+                      content: Text(_t('Muốn xuất tất cả dữ liệu ra tệp', 'Export all data to a file?')),
                       onConfirm: () async {
                         Navigator.of(context).pop();
-                        LoadingModal.showLoadingDialog(context, content: const Text('Đang xuất dữ liệu, vui lòng chờ'));
+                        LoadingModal.showLoadingDialog(context, content: Text(_t('Đang xuất dữ liệu, vui lòng chờ', 'Exporting data, please wait')));
                         await export().then((value) {
                           ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text('Tệp đã được lưu tại $value')));
+                              .showSnackBar(SnackBar(content: Text(_t('Tệp đã được lưu tại $value', 'File saved at $value'))));
                         }).catchError((err) {
                           ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(content: Text('Đã xảy ra lỗi khi xuất dữ liệu')));
+                              .showSnackBar(SnackBar(content: Text(_t('Đã xảy ra lỗi khi xuất dữ liệu', 'An error occurred while exporting data'))));
                         }).whenComplete(() {
                           Navigator.of(context).pop();
                         });
@@ -236,15 +236,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Divider(height: 1, color: theme.colorScheme.outline.withOpacity(0.6)),
                 ListTile(
                   leading: _SettingsIcon(icon: Icons.upload, color: theme.colorScheme.primary),
-                  title: Text('Nhập dữ liệu', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
-                  subtitle: Text('Nhập từ tệp sao lưu', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                  title: Text(_t('Nhập dữ liệu', 'Import data'), style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+                  subtitle: Text(_t('Nhập từ tệp sao lưu', 'Import from backup file'), style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                   trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
                   onTap: () async {
                     try {
                       FilePickerResult? pick;
                       try {
                         pick = await FilePicker.platform.pickFiles(
-                          dialogTitle: 'Chọn tệp',
+                          dialogTitle: _t('Chọn tệp', 'Choose file'),
                           allowMultiple: false,
                           allowCompression: false,
                           type: FileType.custom,
@@ -253,7 +253,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       } on Exception catch (e) {
                         debugPrint('FilePicker custom filter failed, falling back to any: $e');
                         pick = await FilePicker.platform.pickFiles(
-                          dialogTitle: 'Chọn tệp (mọi định dạng)',
+                          dialogTitle: _t('Chọn tệp (mọi định dạng)', 'Choose file (any format)'),
                           allowMultiple: false,
                           allowCompression: false,
                           type: FileType.any,
@@ -262,7 +262,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                       if (pick == null || pick.files.isEmpty) {
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(content: Text('Vui lòng chọn tệp')));
+                            .showSnackBar(SnackBar(content: Text(_t('Vui lòng chọn tệp', 'Please choose a file'))));
                         return;
                       }
 
@@ -271,27 +271,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       final name = file.name.toLowerCase();
                       if (!name.endsWith('.json')) {
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(content: Text('Vui lòng chọn tệp .json')));
+                            .showSnackBar(SnackBar(content: Text(_t('Vui lòng chọn tệp .json', 'Please choose a .json file'))));
                         return;
                       }
 
                       ConfirmModal.showConfirmDialog(
                         context,
-                        title: 'Bạn có chắc chắn?',
-                        content: const Text(
-                          'Tất cả dữ liệu thanh toán, danh mục và tài khoản sẽ bị xóa và thay thế bằng thông tin nhập từ bản sao lưu.',
+                        title: _t('Bạn có chắc chắn?', 'Are you sure?'),
+                        content: Text(
+                          _t('Tất cả dữ liệu thanh toán, danh mục và tài khoản sẽ bị xóa và thay thế bằng thông tin nhập từ bản sao lưu.', 'All payment, category, and account data will be removed and replaced by imported backup data.'),
                         ),
                         onConfirm: () async {
                           Navigator.of(context).pop();
-                          LoadingModal.showLoadingDialog(context, content: const Text('Đang nhập dữ liệu, vui lòng chờ'));
+                          LoadingModal.showLoadingDialog(context, content: Text(_t('Đang nhập dữ liệu, vui lòng chờ', 'Importing data, please wait')));
                           try {
                             await import(file.path!);
                             ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(content: Text('Đã nhập thành công.')));
+                                .showSnackBar(SnackBar(content: Text(_t('Đã nhập thành công.', 'Imported successfully.'))));
                             Navigator.of(context).pop();
                           } catch (err) {
                             ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(content: Text('Đã xảy ra lỗi khi nhập dữ liệu')));
+                                .showSnackBar(SnackBar(content: Text(_t('Đã xảy ra lỗi khi nhập dữ liệu', 'An error occurred while importing data'))));
                             Navigator.of(context).pop();
                           }
                         },
@@ -302,7 +302,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     } catch (err) {
                       debugPrint('FilePicker error: $err');
                       ScaffoldMessenger.of(context)
-                          .showSnackBar(const SnackBar(content: Text('Không thể mở bộ chọn tệp trên thiết bị này')));
+                          .showSnackBar(SnackBar(content: Text(_t('Không thể mở bộ chọn tệp trên thiết bị này', 'Cannot open file picker on this device'))));
                     }
                   },
                 ),

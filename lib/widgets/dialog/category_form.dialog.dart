@@ -1,5 +1,6 @@
 import 'package:SpendingMonitor/dao/category_dao.dart';
 import 'package:SpendingMonitor/events.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/model/category.model.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:SpendingMonitor/widgets/app/app_card.dart';
@@ -76,12 +77,12 @@ class _CategoryForm extends State<CategoryForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.category != null ? 'Chỉnh sửa danh mục' : 'Danh mục mới',
+                        widget.category != null ? tr(context, 'Chỉnh sửa danh mục', 'Edit category') : tr(context, 'Danh mục mới', 'New category'),
                         style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
-                        'Tạo nhóm chi tiêu để quản lý ngân sách.',
+                        tr(context, 'Tạo nhóm chi tiêu để quản lý ngân sách.', 'Create spending groups to manage your budget.'),
                         style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                       ),
                     ],
@@ -94,15 +95,15 @@ class _CategoryForm extends State<CategoryForm> {
               child: Column(
                 children: [
                   AppTextField(
-                    label: 'Tên danh mục',
-                    hintText: 'Nhập tên danh mục',
+                    label: tr(context, 'Tên danh mục', 'Category name'),
+                    hintText: tr(context, 'Nhập tên danh mục', 'Enter category name'),
                     initialValue: _category.name,
                     onChanged: (text) => setState(() => _category.name = text),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
-                    label: 'Ngân sách',
-                    hintText: 'Nhập ngân sách',
+                    label: tr(context, 'Ngân sách', 'Budget'),
+                    hintText: tr(context, 'Nhập ngân sách', 'Enter budget'),
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
@@ -133,7 +134,7 @@ class _CategoryForm extends State<CategoryForm> {
           children: [
             Expanded(
               child: AppButton(
-                label: 'Hủy',
+                label: tr(context, 'Hủy', 'Cancel'),
                 variant: AppButtonVariant.secondary,
                 onPressed: () => Navigator.pop(context),
               ),
@@ -141,7 +142,7 @@ class _CategoryForm extends State<CategoryForm> {
             const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: AppButton(
-                label: 'Lưu',
+                label: tr(context, 'Lưu', 'Save'),
                 onPressed: () => onSave(context),
                 variant: AppButtonVariant.primary,
               ),

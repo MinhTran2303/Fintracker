@@ -1,4 +1,5 @@
 import 'package:SpendingMonitor/widgets/buttons/button.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmModal extends StatelessWidget {
@@ -25,7 +26,7 @@ class ConfirmModal extends StatelessWidget {
           children: [
             Expanded(
               child: AppButton(
-                label: 'Hủy',
+                label: tr(context, 'Hủy', 'Cancel'),
                 onPressed: onCancel,
                 variant: AppButtonVariant.secondary,
               ),
@@ -33,7 +34,7 @@ class ConfirmModal extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: AppButton(
-                label: 'Xác nhận',
+                label: tr(context, 'Xác nhận', 'Confirm'),
                 onPressed: onConfirm,
                 variant: AppButtonVariant.primary,
               ),

@@ -4,6 +4,7 @@ import 'package:SpendingMonitor/screens/categories/categories.screen.dart';
 import 'package:SpendingMonitor/screens/home/home.screen.dart';
 import 'package:SpendingMonitor/screens/onboard/onboard_screen.dart';
 import 'package:SpendingMonitor/screens/settings/settings.screen.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/widgets/app/app_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,11 +46,11 @@ class _MainScreenState extends State<MainScreen> {
           ),
           bottomNavigationBar: AppBottomNavigation(
             selectedIndex: _selected,
-            destinations: const [
-              NavigationDestination(icon: Icon(Symbols.home, fill: 1), label: 'Trang chủ'),
-              NavigationDestination(icon: Icon(Symbols.wallet, fill: 1), label: 'Tài khoản'),
-              NavigationDestination(icon: Icon(Symbols.category, fill: 1), label: 'Danh mục'),
-              NavigationDestination(icon: Icon(Symbols.settings, fill: 1), label: 'Cài đặt'),
+            destinations: [
+              NavigationDestination(icon: const Icon(Symbols.home, fill: 1), label: tr(context, 'Trang chủ', 'Home')),
+              NavigationDestination(icon: const Icon(Symbols.wallet, fill: 1), label: tr(context, 'Tài khoản', 'Accounts')),
+              NavigationDestination(icon: const Icon(Symbols.category, fill: 1), label: tr(context, 'Danh mục', 'Categories')),
+              NavigationDestination(icon: const Icon(Symbols.settings, fill: 1), label: tr(context, 'Cài đặt', 'Settings')),
             ],
             onDestinationSelected: (int selected) {
               _controller.jumpToPage(selected);

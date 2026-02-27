@@ -171,7 +171,7 @@ class _PaymentForm extends State<PaymentForm> {
     return AppScaffold(
       appBar: AppBar(
         title: Text(
-          widget.payment == null ? 'Giao dịch mới' : 'Chỉnh sửa giao dịch',
+          widget.payment == null ? tr(context, 'Giao dịch mới', 'New transaction') : tr(context, 'Chỉnh sửa giao dịch', 'Edit transaction'),
           style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
       ),
@@ -207,12 +207,12 @@ class _PaymentForm extends State<PaymentForm> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.payment == null ? 'Tạo giao dịch' : 'Cập nhật giao dịch',
+                                widget.payment == null ? tr(context, 'Tạo giao dịch', 'Create transaction') : tr(context, 'Cập nhật giao dịch', 'Update transaction'),
                                 style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                               ),
                               const SizedBox(height: AppSpacing.xs),
                               Text(
-                                'Ghi lại thu chi để theo dõi dòng tiền.',
+                                tr(context, 'Ghi lại thu chi để theo dõi dòng tiền.', 'Record income and expenses to track cash flow.'),
                                 style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                               ),
                             ],
@@ -226,13 +226,13 @@ class _PaymentForm extends State<PaymentForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Loại giao dịch', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        Text(tr(context, 'Loại giao dịch', 'Transaction type'), style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                         const SizedBox(height: AppSpacing.sm),
                         Wrap(
                           spacing: AppSpacing.sm,
                           children: [
                             ChoiceChip(
-                              label: const Text('Thu nhập'),
+                              label: Text(tr(context, 'Thu nhập', 'Income')),
                               selected: _type == PaymentType.credit,
                               onSelected: (selected) {
                                 if (selected) {
@@ -244,7 +244,7 @@ class _PaymentForm extends State<PaymentForm> {
                               selectedColor: theme.colorScheme.primaryContainer,
                             ),
                             ChoiceChip(
-                              label: const Text('Chi phí'),
+                              label: Text(tr(context, 'Chi phí', 'Expense')),
                               selected: _type == PaymentType.debit,
                               onSelected: (selected) {
                                 if (selected) {
@@ -265,22 +265,22 @@ class _PaymentForm extends State<PaymentForm> {
                     child: Column(
                       children: [
                         AppTextField(
-                          label: 'Tiêu đề',
-                          hintText: 'Nhập tiêu đề',
+                          label: tr(context, 'Tiêu đề', 'Title'),
+                          hintText: tr(context, 'Nhập tiêu đề', 'Enter title'),
                           initialValue: _title,
                           onChanged: (text) => setState(() => _title = text),
                         ),
                         const SizedBox(height: AppSpacing.md),
                         AppTextField(
-                          label: 'Mô tả',
-                          hintText: 'Ghi chú thêm',
+                          label: tr(context, 'Mô tả', 'Description'),
+                          hintText: tr(context, 'Ghi chú thêm', 'Additional note'),
                           initialValue: _description,
                           maxLines: 3,
                           onChanged: (text) => setState(() => _description = text),
                         ),
                         const SizedBox(height: AppSpacing.md),
                         AppTextField(
-                          label: 'Số tiền',
+                          label: tr(context, 'Số tiền', 'Amount'),
                           hintText: '0',
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
@@ -302,13 +302,13 @@ class _PaymentForm extends State<PaymentForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Ngày và giờ', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        Text(tr(context, 'Ngày và giờ', 'Date and time'), style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                         const SizedBox(height: AppSpacing.sm),
                         Row(
                           children: [
                             Expanded(
                               child: AppTextField(
-                                label: 'Ngày',
+                                label: tr(context, 'Ngày', 'Date'),
                                 readOnly: true,
                                 onTap: () => chooseDate(context),
                                 initialValue: DateFormat('dd/MM/yyyy').format(_datetime),
@@ -317,7 +317,7 @@ class _PaymentForm extends State<PaymentForm> {
                             const SizedBox(width: AppSpacing.md),
                             Expanded(
                               child: AppTextField(
-                                label: 'Giờ',
+                                label: tr(context, 'Giờ', 'Time'),
                                 readOnly: true,
                                 onTap: () => chooseTime(context),
                                 initialValue: DateFormat('HH:mm').format(_datetime),
@@ -333,7 +333,7 @@ class _PaymentForm extends State<PaymentForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Chọn tài khoản', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        Text(tr(context, 'Chọn tài khoản', 'Choose account'), style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                         const SizedBox(height: AppSpacing.sm),
                         SizedBox(
                           height: 96,
@@ -352,7 +352,7 @@ class _PaymentForm extends State<PaymentForm> {
                                       children: [
                                         Icon(Icons.add, color: theme.colorScheme.primary),
                                         const SizedBox(height: AppSpacing.sm),
-                                        Text('Tạo mới', style: theme.textTheme.bodySmall),
+                                        Text(tr(context, 'Tạo mới', 'Create new'), style: theme.textTheme.bodySmall),
                                       ],
                                     ),
                                   ),
@@ -400,7 +400,7 @@ class _PaymentForm extends State<PaymentForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Chọn danh mục', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                        Text(tr(context, 'Chọn danh mục', 'Choose category'), style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                         const SizedBox(height: AppSpacing.sm),
                         LayoutBuilder(
                           builder: (context, constraints) {
@@ -432,7 +432,7 @@ class _PaymentForm extends State<PaymentForm> {
                                           const SizedBox(width: AppSpacing.sm),
                                           Expanded(
                                             child: Text(
-                                              'Tạo mới',
+                                              tr(context, 'Tạo mới', 'Create new'),
                                               style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
                                             ),
                                           ),
@@ -486,7 +486,7 @@ class _PaymentForm extends State<PaymentForm> {
                                               ),
                                               const SizedBox(height: AppSpacing.xs),
                                               Text(
-                                                'Chọn',
+                                                tr(context, 'Chọn', 'Choose'),
                                                 style: theme.textTheme.labelSmall?.copyWith(
                                                   color: isSelected
                                                       ? theme.colorScheme.onPrimaryContainer
@@ -513,7 +513,7 @@ class _PaymentForm extends State<PaymentForm> {
           ),
           const SizedBox(height: AppSpacing.md),
           AppButton(
-            label: 'Lưu giao dịch',
+            label: tr(context, 'Lưu giao dịch', 'Save transaction'),
             onPressed: _amount > 0 && _account != null && _category != null
                 ? () => handleSaveTransaction(context)
                 : null,

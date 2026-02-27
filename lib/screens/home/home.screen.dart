@@ -3,6 +3,7 @@ import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
 import 'package:SpendingMonitor/dao/account_dao.dart';
 import 'package:SpendingMonitor/dao/payment_dao.dart';
 import 'package:SpendingMonitor/events.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/model/account.model.dart';
 import 'package:SpendingMonitor/model/category.model.dart';
 import 'package:SpendingMonitor/model/payment.model.dart';
@@ -19,15 +20,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-String greeting() {
+String greeting(BuildContext context) {
   var hour = DateTime.now().hour;
   if (hour < 12) {
-    return 'Chào buổi sáng';
+    return tr(context, 'Chào buổi sáng', 'Good morning');
   }
   if (hour < 17) {
-    return 'Chào buổi chiều';
+    return tr(context, 'Chào buổi chiều', 'Good afternoon');
   }
-  return 'Chào buổi tối';
+  return tr(context, 'Chào buổi tối', 'Good evening');
 }
 
 class HomeScreen extends StatefulWidget {
@@ -136,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     final topCategory = expenseMap.isNotEmpty ? expenseMap.entries.reduce((a, b) => a.value > b.value ? a : b) : null;
 
-    final username = context.read<AppCubit>().state.username ?? 'Bạn';
+    final username = context.read<AppCubit>().state.username ?? tr(context, 'Bạn', 'You');
 
     return AppScaffold(
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -153,9 +154,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(greeting(), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                      Text(greeting(context), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                       const SizedBox(height: AppSpacing.xs),
-                      Text('Xin chào, $username', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700)),
+                      Text(tr(context, 'Xin chào, $username', 'Hello, $username'), style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700)),
                       const SizedBox(height: AppSpacing.sm),
                       Text(
                         DateFormat('EEEE, d MMMM').format(DateTime.now()),
@@ -184,11 +185,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Row(
                     children: [
-                      Text('Tổng quan', style: theme.textTheme.titleSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                      Text(tr(context, 'Tổng quan', 'Overview'), style: theme.textTheme.titleSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                       const Spacer(),
                       TextButton(
                         onPressed: handleChooseDateRange,
-                        child: const Text('Chọn kỳ'),
+                        child: Text(tr(context, 'Chọn kỳ', 'Select period')),
                       ),
                     ],
                   ),
@@ -199,7 +200,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    netBalance >= 0 ? 'Số dư ròng tháng này' : 'Số dư ròng đang âm',
+                    netBalance >= 0
+                        ? tr(context, 'Số dư ròng tháng này', 'Net balance this month')
+                        : tr(context, 'Số dư ròng đang âm', 'Net balance is negative'),
                     style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   ),
                   const SizedBox(height: AppSpacing.md),
@@ -207,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Expanded(
                         child: _SummaryPill(
-                          label: 'Thu nhập',
+                          label: tr(context, 'Thu nhập', 'Income'),
                           value: moneyFormat.format(monthlyIncome),
                           color: theme.colorScheme.secondary,
                         ),
@@ -215,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: _SummaryPill(
-                          label: 'Chi tiêu',
+                          label: tr(context, 'Chi tiêu', 'Expense'),
                           value: moneyFormat.format(monthlyExpense),
                           color: theme.colorScheme.tertiary,
                         ),
@@ -227,8 +230,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: AppSpacing.lg),
             SectionHeader(
-              title: 'Danh mục chi tiêu cao nhất',
-              subtitle: topCategory == null ? 'Chưa có dữ liệu' : 'Dựa trên kỳ đã chọn',
+              title: tr(context, 'Danh mục chi tiêu cao nhất', 'Top spending category'),
+              subtitle: topCategory == null
+                  ? tr(context, 'Chưa có dữ liệu', 'No data yet')
+                  : tr(context, 'Dựa trên kỳ đã chọn', 'Based on selected period'),
             ),
             const SizedBox(height: AppSpacing.md),
             AppCard(
@@ -249,14 +254,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          topCategory?.key ?? 'Không có dữ liệu',
+                          topCategory?.key ?? tr(context, 'Không có dữ liệu', 'No data'),
                           style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         const SizedBox(height: AppSpacing.xs),
                         Text(
                           topCategory == null
-                              ? 'Hãy thêm giao dịch để xem phân tích.'
-                              : 'Chiếm ${moneyFormat.format(topCategory!.value)} trong kỳ.',
+                              ? tr(context, 'Hãy thêm giao dịch để xem phân tích.', 'Add transactions to view analytics.')
+                              : tr(context, 'Chiếm ${moneyFormat.format(topCategory!.value)} trong kỳ.', 'Accounts for ${moneyFormat.format(topCategory!.value)} in this period.'),
                           style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                         ),
                       ],
@@ -266,15 +271,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            SectionHeader(title: 'Giao dịch gần đây'),
+            SectionHeader(title: tr(context, 'Giao dịch gần đây', 'Recent transactions')),
             const SizedBox(height: AppSpacing.md),
             if (_payments.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                 child: EmptyStateWidget(
-                  title: 'Chưa có giao dịch',
-                  description: 'Bắt đầu thêm giao dịch để theo dõi dòng tiền của bạn.',
-                  ctaLabel: 'Thêm giao dịch',
+                  title: tr(context, 'Chưa có giao dịch', 'No transactions yet'),
+                  description: tr(context, 'Bắt đầu thêm giao dịch để theo dõi dòng tiền của bạn.', 'Start adding transactions to track your cash flow.'),
+                  ctaLabel: tr(context, 'Thêm giao dịch', 'Add transaction'),
                   onCta: () => openAddPaymentPage(PaymentType.credit),
                 ),
               )

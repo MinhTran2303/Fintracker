@@ -1,4 +1,5 @@
 import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
 import 'package:SpendingMonitor/widgets/app/app_text_field.dart';
@@ -32,12 +33,12 @@ class ProfileWidget extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xl),
           Text(
-            'Chào mừng đến Fintracker',
+            tr(context, 'Chào mừng đến Fintracker', 'Welcome to Fintracker'),
             style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            'Chúng tôi nên gọi bạn là gì?',
+            tr(context, 'Chúng tôi nên gọi bạn là gì?', 'What should we call you?'),
             style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -50,20 +51,21 @@ class ProfileWidget extends StatelessWidget {
             ),
             child: AppTextField(
               controller: controller,
-              label: 'Tên',
-              hintText: 'Nhập tên của bạn',
+              label: tr(context, 'Tên', 'Name'),
+              hintText: tr(context, 'Nhập tên của bạn', 'Enter your name'),
               prefix: const Icon(Icons.account_circle),
             ),
           ),
           const Spacer(),
           AppButton(
-            label: 'Tiếp tục',
+            label: tr(context, 'Tiếp tục', 'Continue'),
             icon: Icons.arrow_forward,
             size: AppButtonSize.large,
             isFullWidth: true,
             onPressed: () {
               if (controller.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Vui lòng nhập tên')));
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(tr(context, 'Vui lòng nhập tên', 'Please enter your name'))));
               } else {
                 cubit.updateUsername(controller.text).then((value) {
                   onGetStarted();

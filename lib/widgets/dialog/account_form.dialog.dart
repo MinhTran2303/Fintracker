@@ -1,5 +1,6 @@
 import 'package:SpendingMonitor/dao/account_dao.dart';
 import 'package:SpendingMonitor/events.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/model/account.model.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:SpendingMonitor/widgets/app/app_card.dart';
@@ -93,12 +94,12 @@ class _AccountForm extends State<AccountForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.account != null ? 'Chỉnh sửa ví' : 'Ví mới',
+                        widget.account != null ? tr(context, 'Chỉnh sửa ví', 'Edit wallet') : tr(context, 'Ví mới', 'New wallet'),
                         style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
-                        'Thiết lập thông tin ví để theo dõi số dư.',
+                        tr(context, 'Thiết lập thông tin ví để theo dõi số dư.', 'Set wallet information to track balances.'),
                         style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                       ),
                     ],
@@ -111,22 +112,22 @@ class _AccountForm extends State<AccountForm> {
               child: Column(
                 children: [
                   AppTextField(
-                    label: 'Tên ví',
-                    hintText: 'Tên tài khoản',
+                    label: tr(context, 'Tên ví', 'Wallet name'),
+                    hintText: tr(context, 'Tên tài khoản', 'Account name'),
                     initialValue: _account!.name,
                     onChanged: (text) => setState(() => _account!.name = text),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
-                    label: 'Tên chủ',
-                    hintText: 'Nhập tên chủ tài khoản',
+                    label: tr(context, 'Tên chủ', 'Owner name'),
+                    hintText: tr(context, 'Nhập tên chủ tài khoản', 'Enter account owner name'),
                     initialValue: _account!.holderName,
                     onChanged: (text) => setState(() => _account!.holderName = text),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
-                    label: 'Số tài khoản',
-                    hintText: 'Nhập số tài khoản',
+                    label: tr(context, 'Số tài khoản', 'Account number'),
+                    hintText: tr(context, 'Nhập số tài khoản', 'Enter account number'),
                     initialValue: _account!.accountNumber,
                     onChanged: (text) => setState(() => _account!.accountNumber = text),
                   ),
@@ -145,7 +146,7 @@ class _AccountForm extends State<AccountForm> {
               children: [
                 Expanded(
                   child: AppButton(
-                    label: 'Hủy',
+                    label: tr(context, 'Hủy', 'Cancel'),
                     variant: AppButtonVariant.secondary,
                     onPressed: () => Navigator.pop(context),
                   ),
@@ -153,7 +154,7 @@ class _AccountForm extends State<AccountForm> {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: AppButton(
-                    label: 'Lưu',
+                    label: tr(context, 'Lưu', 'Save'),
                     onPressed: () => onSave(context),
                     variant: AppButtonVariant.primary,
                   ),

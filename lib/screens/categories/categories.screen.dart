@@ -3,6 +3,7 @@ import 'package:SpendingMonitor/dao/category_dao.dart';
 import 'package:SpendingMonitor/events.dart';
 import 'package:SpendingMonitor/model/category.model.dart';
 import 'package:SpendingMonitor/helpers/currency.helper.dart';
+import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:SpendingMonitor/widgets/app/app_card.dart';
 import 'package:SpendingMonitor/widgets/app/app_fab.dart';
@@ -55,7 +56,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     final totalExpense = _categories.fold<num>(0, (sum, category) => sum + (category.expense ?? 0));
     return AppScaffold(
       appBar: AppBar(
-        title: Text('Ngân sách', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
+        title: Text(tr(context, 'Ngân sách', 'Budget'), style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
       floatingActionButton: AppFAB(
@@ -66,9 +67,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       body: _categories.isEmpty
           ? Center(
               child: EmptyStateWidget(
-                title: 'Chưa có danh mục',
-                description: 'Tạo danh mục để theo dõi ngân sách của bạn.',
-                ctaLabel: 'Tạo danh mục',
+                title: tr(context, 'Chưa có danh mục', 'No categories yet'),
+                description: tr(context, 'Tạo danh mục để theo dõi ngân sách của bạn.', 'Create categories to track your budget.'),
+                ctaLabel: tr(context, 'Tạo danh mục', 'Create category'),
                 onCta: () {
                   showDialog(context: context, builder: (builder) => const CategoryForm());
                 },
@@ -81,7 +82,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Tổng ngân sách', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                      Text(tr(context, 'Tổng ngân sách', 'Total budget'), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
                       const SizedBox(height: AppSpacing.sm),
                       Text(
                         CurrencyHelper.format(totalBudget.toDouble()),
@@ -92,7 +93,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         children: [
                           Expanded(
                             child: _BudgetStat(
-                              label: 'Đã chi',
+                              label: tr(context, 'Đã chi', 'Spent'),
                               value: CurrencyHelper.format(totalExpense.toDouble()),
                               color: theme.colorScheme.tertiary,
                             ),
@@ -100,7 +101,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           const SizedBox(width: AppSpacing.md),
                           Expanded(
                             child: _BudgetStat(
-                              label: 'Còn lại',
+                              label: tr(context, 'Còn lại', 'Remaining'),
                               value: CurrencyHelper.format((totalBudget - totalExpense).toDouble()),
                               color: theme.colorScheme.secondary,
                             ),
@@ -112,8 +113,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 SectionHeader(
-                  title: 'Danh mục chi tiêu',
-                  subtitle: '${_categories.length} danh mục',
+                  title: tr(context, 'Danh mục chi tiêu', 'Spending categories'),
+                  subtitle: tr(context, '${_categories.length} danh mục', '${_categories.length} categories'),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Expanded(
@@ -148,7 +149,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   const SizedBox(width: AppSpacing.md),
                                   Expanded(
                                     child: Text(
-                                      translateCategoryName(category.name),
+                                      translateCategoryName(context, category.name),
                                       style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                                     ),
                                   ),
@@ -163,7 +164,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             children: [
                                               ListTile(
                                                 leading: Icon(Icons.edit, color: theme.colorScheme.primary),
-                                                title: const Text('Chỉnh sửa'),
+                                                title: Text(tr(context, 'Chỉnh sửa', 'Edit')),
                                                 onTap: () {
                                                   Navigator.pop(context);
                                                   showDialog(context: context, builder: (builder) => CategoryForm(category: category));
@@ -218,7 +219,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                     border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                                   ),
                                   child: Text(
-                                    'Chưa đặt ngân sách',
+                                    tr(context, 'Chưa đặt ngân sách', 'No budget set'),
                                     style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                                   ),
                                 ),
