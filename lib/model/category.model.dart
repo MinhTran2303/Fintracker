@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/icons.dart';
+
 class Category {
   int? id;
   String name;
@@ -8,7 +10,10 @@ class Category {
   double? budget;
   double? expense;
 
-  IconData get icon => IconData(iconCode, fontFamily: 'MaterialIcons');
+  IconData get icon => AppIcons.fromCodePoint(
+        iconCode,
+        fallback: Icons.wallet_outlined,
+      );
   set icon(IconData value) => iconCode = value.codePoint;
 
   Color get color => Color(colorValue);
