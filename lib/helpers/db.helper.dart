@@ -7,7 +7,6 @@ import "package:SpendingMonitor/helpers/migrations/migrations.dart";
 import "package:sqflite_common_ffi/sqflite_ffi.dart";
 
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 Database? database;
 Future<Database> getDBInstance() async {
@@ -92,22 +91,11 @@ Future<void> resetDatabase() async {
 
 
 Future<String> getExternalDocumentPath() async {
-  // To check whether permission is given for this app or not.
-  var status = await Permission.storage.status;
-  if (!status.isGranted) {
-    // If not we will ask for permission first
-    status = await Permission.storage.request();
-  }
-  if (!status.isGranted && Platform.isAndroid) {
-    final manageStatus = await Permission.manageExternalStorage.status;
-    if (!manageStatus.isGranted) {
-      await Permission.manageExternalStorage.request();
-    }
-  }
-  Directory directory = Directory("");
+  Directory directory;
   if (Platform.isAndroid) {
-    // Redirects it to download folder in android
-    directory = Directory("/storage/emulated/0/Download");
+    // App-specific external files directory (no storage permission required).
+    directory = await getExternalStorageDirectory() ??
+        await getApplicationDocumentsDirectory();
   } else {
     directory = await getApplicationDocumentsDirectory();
   }
