@@ -3,34 +3,40 @@ import 'package:flutter/material.dart';
 class Category {
   int? id;
   String name;
-  IconData icon;
-  Color color;
+  int iconCode;
+  int colorValue;
   double? budget;
   double? expense;
+
+  IconData get icon => IconData(iconCode, fontFamily: 'MaterialIcons');
+  set icon(IconData value) => iconCode = value.codePoint;
+
+  Color get color => Color(colorValue);
+  set color(Color value) => colorValue = value.value;
 
   Category({
     this.id,
     required this.name,
-    required this.icon,
-    required this.color,
+    required this.iconCode,
+    required this.colorValue,
     this.budget,
-    this.expense
+    this.expense,
   });
 
   factory Category.fromJson(Map<String, dynamic> data) => Category(
-    id: data["id"],
-    name: data["name"],
-    icon: IconData(data["icon"], fontFamily: 'MaterialIcons'),
-    color: Color(data["color"]),
-    budget: data["budget"] ?? 0,
-    expense: data["expense"] ?? 0,
-  );
+        id: data['id'] as int?,
+        name: data['name'] as String? ?? '',
+        iconCode: data['icon'] as int? ?? Icons.wallet_outlined.codePoint,
+        colorValue: data['color'] as int? ?? Colors.pink.value,
+        budget: (data['budget'] as num?)?.toDouble() ?? 0,
+        expense: (data['expense'] as num?)?.toDouble() ?? 0,
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "icon": icon.codePoint,
-    "color": color.value,
-    "budget": budget,
-  };
+        'id': id,
+        'name': name,
+        'icon': iconCode,
+        'color': colorValue,
+        'budget': budget,
+      };
 }

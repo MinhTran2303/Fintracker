@@ -34,16 +34,16 @@ class _AccountForm extends State<AccountForm> {
         name: widget.account!.name,
         holderName: widget.account!.holderName,
         accountNumber: widget.account!.accountNumber,
-        icon: widget.account!.icon,
-        color: widget.account!.color,
+        iconCode: widget.account!.iconCode,
+        colorValue: widget.account!.colorValue,
       );
     } else {
       _account = Account(
         name: '',
         holderName: '',
         accountNumber: '',
-        icon: Icons.account_circle,
-        color: Colors.grey,
+        iconCode: Icons.account_circle.codePoint,
+        colorValue: Colors.grey.value,
       );
     }
   }

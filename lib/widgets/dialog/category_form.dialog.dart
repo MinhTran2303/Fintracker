@@ -25,13 +25,13 @@ class CategoryForm extends StatefulWidget {
 
 class _CategoryForm extends State<CategoryForm> {
   final CategoryDao _categoryDao = CategoryDao();
-  Category _category = Category(name: '', icon: Icons.wallet_outlined, color: Colors.pink);
+  Category _category = Category(name: '', iconCode: Icons.wallet_outlined.codePoint, colorValue: Colors.pink.value);
 
   @override
   void initState() {
     super.initState();
     if (widget.category != null) {
-      _category = widget.category ?? Category(name: '', icon: Icons.wallet_outlined, color: Colors.pink);
+      _category = widget.category ?? Category(name: '', iconCode: Icons.wallet_outlined.codePoint, colorValue: Colors.pink.value);
     }
   }
 
