@@ -464,7 +464,7 @@ class _PaymentForm extends State<PaymentForm> {
                                             border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
                                           ),
                                           child: Icon(
-                                            isSelected ? Icons.check_circle : Icons.layers,
+                                            category.icon,
                                             color: isSelected ? theme.colorScheme.primary : category.color,
                                             size: 18,
                                           ),
