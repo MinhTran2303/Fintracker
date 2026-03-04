@@ -1,15 +1,11 @@
 import 'package:currency_picker/currency_picker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:SpendingMonitor/bloc/cubit/app_cubit.dart';
-import 'package:SpendingMonitor/helpers/db.helper.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
 import 'package:SpendingMonitor/widgets/app/app_card.dart';
 import 'package:SpendingMonitor/widgets/app/app_scaffold.dart';
 import 'package:SpendingMonitor/widgets/app/app_text_field.dart';
 import 'package:SpendingMonitor/widgets/app/section_header.dart';
 import 'package:SpendingMonitor/widgets/buttons/button.dart';
-import 'package:SpendingMonitor/widgets/dialog/confirm.modal.dart';
-import 'package:SpendingMonitor/widgets/dialog/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -193,120 +189,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   },
                 );
               },
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          SectionHeader(
-            title: _t('Sao lưu & khôi phục', 'Backup & restore'),
-            subtitle: _t('Xuất và nhập dữ liệu cục bộ', 'Export and import local data'),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          AppCard(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: _SettingsIcon(icon: Icons.download, color: theme.colorScheme.primary),
-                  title: Text(_t('Xuất dữ liệu', 'Export data'), style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
-                  subtitle: Text(_t('Xuất ra tệp', 'Export to file'), style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
-                  onTap: () async {
-                    ConfirmModal.showConfirmDialog(
-                      context,
-                      title: _t('Bạn có chắc chắn?', 'Are you sure?'),
-                      content: Text(_t('Muốn xuất tất cả dữ liệu ra tệp', 'Export all data to a file?')),
-                      onConfirm: () async {
-                        Navigator.of(context).pop();
-                        LoadingModal.showLoadingDialog(context, content: Text(_t('Đang xuất dữ liệu, vui lòng chờ', 'Exporting data, please wait')));
-                        await export().then((value) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text(_t('Tệp đã được lưu tại $value', 'File saved at $value'))));
-                        }).catchError((err) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text(_t('Đã xảy ra lỗi khi xuất dữ liệu', 'An error occurred while exporting data'))));
-                        }).whenComplete(() {
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      onCancel: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                ),
-                Divider(height: 1, color: theme.colorScheme.outline.withOpacity(0.6)),
-                ListTile(
-                  leading: _SettingsIcon(icon: Icons.upload, color: theme.colorScheme.primary),
-                  title: Text(_t('Nhập dữ liệu', 'Import data'), style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
-                  subtitle: Text(_t('Nhập từ tệp sao lưu', 'Import from backup file'), style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
-                  onTap: () async {
-                    try {
-                      FilePickerResult? pick;
-                      try {
-                        pick = await FilePicker.platform.pickFiles(
-                          dialogTitle: _t('Chọn tệp', 'Choose file'),
-                          allowMultiple: false,
-                          allowCompression: false,
-                          type: FileType.custom,
-                          allowedExtensions: ['json'],
-                        );
-                      } on Exception catch (e) {
-                        debugPrint('FilePicker custom filter failed, falling back to any: $e');
-                        pick = await FilePicker.platform.pickFiles(
-                          dialogTitle: _t('Chọn tệp (mọi định dạng)', 'Choose file (any format)'),
-                          allowMultiple: false,
-                          allowCompression: false,
-                          type: FileType.any,
-                        );
-                      }
-
-                      if (pick == null || pick.files.isEmpty) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text(_t('Vui lòng chọn tệp', 'Please choose a file'))));
-                        return;
-                      }
-
-                      PlatformFile file = pick.files.first;
-
-                      final name = file.name.toLowerCase();
-                      if (!name.endsWith('.json')) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text(_t('Vui lòng chọn tệp .json', 'Please choose a .json file'))));
-                        return;
-                      }
-
-                      ConfirmModal.showConfirmDialog(
-                        context,
-                        title: _t('Bạn có chắc chắn?', 'Are you sure?'),
-                        content: Text(
-                          _t('Tất cả dữ liệu thanh toán, danh mục và tài khoản sẽ bị xóa và thay thế bằng thông tin nhập từ bản sao lưu.', 'All payment, category, and account data will be removed and replaced by imported backup data.'),
-                        ),
-                        onConfirm: () async {
-                          Navigator.of(context).pop();
-                          LoadingModal.showLoadingDialog(context, content: Text(_t('Đang nhập dữ liệu, vui lòng chờ', 'Importing data, please wait')));
-                          try {
-                            await import(file.path!);
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text(_t('Đã nhập thành công.', 'Imported successfully.'))));
-                            Navigator.of(context).pop();
-                          } catch (err) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text(_t('Đã xảy ra lỗi khi nhập dữ liệu', 'An error occurred while importing data'))));
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        onCancel: () {
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    } catch (err) {
-                      debugPrint('FilePicker error: $err');
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(_t('Không thể mở bộ chọn tệp trên thiết bị này', 'Cannot open file picker on this device'))));
-                    }
-                  },
-                ),
-              ],
             ),
           ),
         ],
