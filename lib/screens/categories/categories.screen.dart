@@ -78,45 +78,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppCard(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(tr(context, 'Tổng ngân sách', 'Total budget'), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                            const SizedBox(height: AppSpacing.xs),
-                            Text(
-                              CurrencyHelper.format(totalBudget.toDouble()),
-                              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            _BudgetMiniStat(
-                              label: tr(context, 'Đã chi', 'Spent'),
-                              value: CurrencyHelper.format(totalExpense.toDouble()),
-                              color: theme.colorScheme.tertiary,
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            _BudgetMiniStat(
-                              label: tr(context, 'Còn lại', 'Remaining'),
-                              value: CurrencyHelper.format((totalBudget - totalExpense).toDouble()),
-                              color: theme.colorScheme.secondary,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                _BudgetOverviewCard(
+                  totalBudget: totalBudget.toDouble(),
+                  totalExpense: totalExpense.toDouble(),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 SectionHeader(
@@ -300,6 +264,97 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 }
 
+
+class _BudgetOverviewCard extends StatelessWidget {
+  final double totalBudget;
+  final double totalExpense;
+
+  const _BudgetOverviewCard({
+    required this.totalBudget,
+    required this.totalExpense,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final remaining = (totalBudget - totalExpense).clamp(0, double.infinity).toDouble();
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(22),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.surface.withOpacity(0.9),
+            theme.colorScheme.surfaceVariant.withOpacity(0.45),
+          ],
+        ),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.28)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      tr(context, 'Tổng ngân sách', 'Total budget'),
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    CurrencyHelper.format(totalBudget),
+                    style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    tr(context, 'Tổng quan ngân sách hiện tại', 'Current budget overview'),
+                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                children: [
+                  _BudgetMiniStat(
+                    label: tr(context, 'Đã chi', 'Spent'),
+                    value: CurrencyHelper.format(totalExpense),
+                    color: theme.colorScheme.tertiary,
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  _BudgetMiniStat(
+                    label: tr(context, 'Còn lại', 'Remaining'),
+                    value: CurrencyHelper.format(remaining),
+                    color: theme.colorScheme.secondary,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _BudgetMiniStat extends StatelessWidget {
   final String label;
   final String value;
@@ -315,10 +370,10 @@ class _BudgetMiniStat extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceVariant,
-        borderRadius: BorderRadius.circular(10),
+        color: theme.colorScheme.surface.withOpacity(0.52),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
       ),
       child: Row(
