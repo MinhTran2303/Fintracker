@@ -58,7 +58,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       appBar: AppBar(
         title: Text(tr(context, 'Ngân sách', 'Budget'), style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
       ),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.md),
       floatingActionButton: AppFAB(
         onPressed: () {
           showDialog(context: context, builder: (builder) => const CategoryForm());
@@ -79,44 +79,51 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppCard(
-                  child: Column(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(tr(context, 'Tổng ngân sách', 'Total budget'), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                      const SizedBox(height: AppSpacing.sm),
-                      Text(
-                        CurrencyHelper.format(totalBudget.toDouble()),
-                        style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(tr(context, 'Tổng ngân sách', 'Total budget'), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                            const SizedBox(height: AppSpacing.xs),
+                            Text(
+                              CurrencyHelper.format(totalBudget.toDouble()),
+                              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: AppSpacing.md),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _BudgetStat(
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            _BudgetMiniStat(
                               label: tr(context, 'Đã chi', 'Spent'),
                               value: CurrencyHelper.format(totalExpense.toDouble()),
                               color: theme.colorScheme.tertiary,
                             ),
-                          ),
-                          const SizedBox(width: AppSpacing.md),
-                          Expanded(
-                            child: _BudgetStat(
+                            const SizedBox(height: AppSpacing.sm),
+                            _BudgetMiniStat(
                               label: tr(context, 'Còn lại', 'Remaining'),
                               value: CurrencyHelper.format((totalBudget - totalExpense).toDouble()),
                               color: theme.colorScheme.secondary,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: AppSpacing.lg),
+                const SizedBox(height: AppSpacing.md),
                 SectionHeader(
                   title: tr(context, 'Danh mục chi tiêu', 'Spending categories'),
                   subtitle: tr(context, '${_categories.length} danh mục', '${_categories.length} categories'),
                 ),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.sm),
                 Expanded(
                   child: ListView.builder(
                     itemCount: _categories.length,
@@ -293,12 +300,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 }
 
-class _BudgetStat extends StatelessWidget {
+class _BudgetMiniStat extends StatelessWidget {
   final String label;
   final String value;
   final Color color;
 
-  const _BudgetStat({
+  const _BudgetMiniStat({
     required this.label,
     required this.value,
     required this.color,
@@ -308,10 +315,10 @@ class _BudgetStat extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 6),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceVariant,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
       ),
       child: Row(
@@ -330,7 +337,7 @@ class _BudgetStat extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   value,
-                  style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w700),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
