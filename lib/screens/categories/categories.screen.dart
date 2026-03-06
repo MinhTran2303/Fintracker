@@ -112,7 +112,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                     decoration: BoxDecoration(
                                       color: theme.colorScheme.surfaceVariant,
                                       borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                                      border: Border.all(color: theme.colorScheme.outline.withOpacity(0.25)),
                                     ),
                                     child: Icon(
                                       category.icon,
@@ -128,11 +128,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         Text(
                                           translateCategoryName(context, category.name),
                                           style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-                                        ),
-                                        const SizedBox(height: AppSpacing.xs),
-                                        Text(
-                                          tr(context, 'Theo dõi chi tiêu', 'Track spending'),
-                                          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                                         ),
                                       ],
                                     ),
@@ -243,7 +238,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   decoration: BoxDecoration(
                                     color: theme.colorScheme.surfaceVariant,
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.25)),
                                   ),
                                   child: Text(
                                     tr(context, 'Chưa đặt ngân sách', 'No budget set'),
@@ -280,76 +275,51 @@ class _BudgetOverviewCard extends StatelessWidget {
     final remaining = (totalBudget - totalExpense).clamp(0, double.infinity).toDouble();
 
     return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            theme.colorScheme.surface.withOpacity(0.9),
-            theme.colorScheme.surfaceVariant.withOpacity(0.45),
-          ],
-        ),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.28)),
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.2)),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Text(
-                      tr(context, 'Tổng ngân sách', 'Total budget'),
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    CurrencyHelper.format(totalBudget),
-                    style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    tr(context, 'Tổng quan ngân sách hiện tại', 'Current budget overview'),
-                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                  ),
-                ],
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            tr(context, 'Tổng ngân sách', 'Total budget'),
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
             ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                children: [
-                  _BudgetMiniStat(
-                    label: tr(context, 'Đã chi', 'Spent'),
-                    value: CurrencyHelper.format(totalExpense),
-                    color: theme.colorScheme.tertiary,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  _BudgetMiniStat(
-                    label: tr(context, 'Còn lại', 'Remaining'),
-                    value: CurrencyHelper.format(remaining),
-                    color: theme.colorScheme.secondary,
-                  ),
-                ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            CurrencyHelper.format(totalBudget),
+            style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              Expanded(
+                child: _BudgetMiniStat(
+                  label: tr(context, 'Đã chi', 'Spent'),
+                  value: CurrencyHelper.format(totalExpense),
+                  color: theme.colorScheme.tertiary,
+                ),
               ),
-            ),
-          ],
-        ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: _BudgetMiniStat(
+                  label: tr(context, 'Còn lại', 'Remaining'),
+                  value: CurrencyHelper.format(remaining),
+                  color: theme.colorScheme.secondary,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -370,11 +340,11 @@ class _BudgetMiniStat extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.52),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+        color: theme.colorScheme.surfaceVariant.withOpacity(0.45),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.25)),
       ),
       child: Row(
         children: [
@@ -389,7 +359,7 @@ class _BudgetMiniStat extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(label, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                const SizedBox(height: AppSpacing.xs),
+                const SizedBox(height: 2),
                 Text(
                   value,
                   style: theme.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w700),
@@ -453,9 +423,9 @@ class _CategoryMetricTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.sm),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceVariant.withOpacity(0.6),
+        color: theme.colorScheme.surfaceVariant.withOpacity(0.35),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

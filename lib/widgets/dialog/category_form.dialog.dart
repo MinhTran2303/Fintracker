@@ -60,6 +60,17 @@ class _CategoryForm extends State<CategoryForm> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: Container(
+                width: 44,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.outline.withOpacity(0.35),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -85,7 +96,7 @@ class _CategoryForm extends State<CategoryForm> {
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
-                        tr(context, 'Thiết lập nhanh, gọn và rõ ràng.', 'Quick setup with a clean and modern look.'),
+                        tr(context, 'Tối giản, hiện đại và dễ dùng.', 'Minimal, modern and easy to use.'),
                         style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                       ),
                     ],
@@ -97,7 +108,7 @@ class _CategoryForm extends State<CategoryForm> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
               decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceVariant.withOpacity(0.6),
+                color: theme.colorScheme.surfaceVariant.withOpacity(0.35),
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Text(
@@ -188,9 +199,9 @@ class _SectionContainer extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.45),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.25)),
+        color: theme.colorScheme.surfaceVariant.withOpacity(0.22),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.18)),
       ),
       child: child,
     );
