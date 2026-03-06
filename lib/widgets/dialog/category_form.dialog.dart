@@ -3,7 +3,6 @@ import 'package:SpendingMonitor/events.dart';
 import 'package:SpendingMonitor/l10n/app_text.dart';
 import 'package:SpendingMonitor/model/category.model.dart';
 import 'package:SpendingMonitor/theme/app_spacing.dart';
-import 'package:SpendingMonitor/widgets/app/app_card.dart';
 import 'package:SpendingMonitor/widgets/app/app_text_field.dart';
 import 'package:SpendingMonitor/widgets/app/icon_color_picker.dart';
 import 'package:SpendingMonitor/widgets/buttons/button.dart';
@@ -47,11 +46,14 @@ class _CategoryForm extends State<CategoryForm> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isEditing = widget.category != null;
+
     return AlertDialog(
       scrollable: true,
       insetPadding: const EdgeInsets.all(16),
       backgroundColor: theme.colorScheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      contentPadding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.md),
       content: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -59,14 +61,15 @@ class _CategoryForm extends State<CategoryForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 48,
-                  width: 48,
+                  height: 52,
+                  width: 52,
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceVariant,
+                    color: _category.color.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+                    border: Border.all(color: _category.color.withOpacity(0.3)),
                   ),
                   alignment: Alignment.center,
                   child: Icon(_category.icon, color: _category.color, size: 22),
@@ -77,12 +80,12 @@ class _CategoryForm extends State<CategoryForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.category != null ? tr(context, 'Chỉnh sửa danh mục', 'Edit category') : tr(context, 'Danh mục mới', 'New category'),
-                        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                        isEditing ? tr(context, 'Chỉnh sửa danh mục', 'Edit category') : tr(context, 'Danh mục mới', 'New category'),
+                        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
-                        tr(context, 'Tạo nhóm chi tiêu để quản lý ngân sách.', 'Create spending groups to manage your budget.'),
+                        tr(context, 'Thiết lập nhanh, gọn và rõ ràng.', 'Quick setup with a clean and modern look.'),
                         style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                       ),
                     ],
@@ -90,20 +93,36 @@ class _CategoryForm extends State<CategoryForm> {
                 ),
               ],
             ),
+            const SizedBox(height: AppSpacing.md),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceVariant.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                tr(
+                  context,
+                  _category.name.isEmpty ? 'Xem trước: Danh mục mới' : 'Xem trước: ${_category.name}',
+                  _category.name.isEmpty ? 'Preview: New category' : 'Preview: ${_category.name}',
+                ),
+                style: theme.textTheme.labelMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              ),
+            ),
             const SizedBox(height: AppSpacing.lg),
-            AppCard(
+            _SectionContainer(
               child: Column(
                 children: [
                   AppTextField(
                     label: tr(context, 'Tên danh mục', 'Category name'),
-                    hintText: tr(context, 'Nhập tên danh mục', 'Enter category name'),
+                    hintText: tr(context, 'Ví dụ: Ăn uống, Mua sắm...', 'Example: Food, Shopping...'),
                     initialValue: _category.name,
                     onChanged: (text) => setState(() => _category.name = text),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppTextField(
                     label: tr(context, 'Ngân sách', 'Budget'),
-                    hintText: tr(context, 'Nhập ngân sách', 'Enter budget'),
+                    hintText: tr(context, 'Để trống nếu chưa đặt', 'Leave blank if no budget yet'),
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
@@ -120,15 +139,18 @@ class _CategoryForm extends State<CategoryForm> {
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            IconColorPicker(
-              selectedColor: _category.color,
-              selectedIcon: _category.icon,
-              onColorChanged: (color) => setState(() => _category.color = color),
-              onIconChanged: (icon) => setState(() => _category.icon = icon),
+            _SectionContainer(
+              child: IconColorPicker(
+                selectedColor: _category.color,
+                selectedIcon: _category.icon,
+                onColorChanged: (color) => setState(() => _category.color = color),
+                onIconChanged: (icon) => setState(() => _category.icon = icon),
+              ),
             ),
           ],
         ),
       ),
+      actionsPadding: const EdgeInsets.fromLTRB(AppSpacing.lg, 0, AppSpacing.lg, AppSpacing.lg),
       actions: [
         Row(
           children: [
@@ -150,6 +172,27 @@ class _CategoryForm extends State<CategoryForm> {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _SectionContainer extends StatelessWidget {
+  final Widget child;
+
+  const _SectionContainer({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface.withOpacity(0.45),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.25)),
+      ),
+      child: child,
     );
   }
 }
