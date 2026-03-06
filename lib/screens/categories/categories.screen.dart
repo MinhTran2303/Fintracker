@@ -122,8 +122,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     itemCount: _categories.length,
                     itemBuilder: (builder, index) {
                       Category category = _categories[index];
-                      double expenseProgress = (category.expense ?? 0) / (category.budget ?? 0);
                       bool hasBudget = category.budget != null && category.budget! > 0;
+                      final budgetValue = (category.budget ?? 0).toDouble();
+                      final expenseValue = (category.expense ?? 0).toDouble();
+                      final remainingValue = (budgetValue - expenseValue).clamp(0, double.infinity).toDouble();
+                      double expenseProgress = hasBudget ? (expenseValue / budgetValue) : 0;
                       bool overBudget = hasBudget && expenseProgress > 1.0;
                       return Padding(
                         padding: const EdgeInsets.only(bottom: AppSpacing.md),
@@ -148,9 +151,19 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                   const SizedBox(width: AppSpacing.md),
                                   Expanded(
-                                    child: Text(
-                                      translateCategoryName(context, category.name),
-                                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          translateCategoryName(context, category.name),
+                                          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                                        ),
+                                        const SizedBox(height: AppSpacing.xs),
+                                        Text(
+                                          tr(context, 'Theo dõi chi tiêu', 'Track spending'),
+                                          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   IconButton(
@@ -181,12 +194,55 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                               const SizedBox(height: AppSpacing.md),
                               if (hasBudget) ...[
+                                Wrap(
+                                  spacing: AppSpacing.sm,
+                                  runSpacing: AppSpacing.sm,
+                                  children: [
+                                    _CategoryTag(
+                                      label: overBudget ? tr(context, 'Vượt ngân sách', 'Over budget') : tr(context, 'Trong ngân sách', 'On track'),
+                                      backgroundColor: overBudget
+                                          ? theme.colorScheme.errorContainer
+                                          : theme.colorScheme.secondaryContainer,
+                                      textColor: overBudget ? theme.colorScheme.onErrorContainer : theme.colorScheme.onSecondaryContainer,
+                                    ),
+                                    _CategoryTag(
+                                      label: tr(context, 'Ngân sách: ${CurrencyHelper.format(budgetValue)}', 'Budget: ${CurrencyHelper.format(budgetValue)}'),
+                                      backgroundColor: theme.colorScheme.surfaceVariant,
+                                      textColor: theme.colorScheme.onSurfaceVariant,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: AppSpacing.md),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: _CategoryMetricTile(
+                                        label: tr(context, 'Đã chi', 'Spent'),
+                                        value: CurrencyHelper.format(expenseValue),
+                                        highlightColor: theme.colorScheme.tertiary,
+                                      ),
+                                    ),
+                                    const SizedBox(width: AppSpacing.md),
+                                    Expanded(
+                                      child: _CategoryMetricTile(
+                                        label: tr(context, 'Còn lại', 'Remaining'),
+                                        value: CurrencyHelper.format(remainingValue),
+                                        highlightColor: theme.colorScheme.secondary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: AppSpacing.sm),
                                 Row(
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        "${CurrencyHelper.format(category.expense ?? 0, locale: 'vi_VN')} / ${CurrencyHelper.format(category.budget ?? 0, locale: 'vi_VN')}",
-                                        style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                                        tr(
+                                          context,
+                                          'Mức sử dụng ngân sách',
+                                          'Budget usage',
+                                        ),
+                                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                                       ),
                                     ),
                                     Text(
@@ -280,6 +336,90 @@ class _BudgetStat extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CategoryTag extends StatelessWidget {
+  final String label;
+  final Color backgroundColor;
+  final Color textColor;
+
+  const _CategoryTag({
+    required this.label,
+    required this.backgroundColor,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: textColor,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+class _CategoryMetricTile extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color highlightColor;
+
+  const _CategoryMetricTile({
+    required this.label,
+    required this.value,
+    required this.highlightColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceVariant.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(color: highlightColor, shape: BoxShape.circle),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              Expanded(
+                child: Text(
+                  label,
+                  style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            value,
+            style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
